@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gestione Squadre - Summer Sports Cup</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SummerCup">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#131313">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'surface': '#131313',
+                        'primary': '#ffffff',
+                        'acid-lime': '#c5f400',
+                        'moss-green': '#688012',
+                        'onyx': '#131313',
+                    },
+                    fontFamily: {
+                        'montserrat': ['Montserrat', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #131313;
+            color: #e2e2e2;
+        }
+
+        .team-card {
+            background-color: #1f1f1f;
+            border: 1px solid #353535;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover {
+            border-color: #CDFD00;
+            transform: translateY(-4px);
+        }
+
+        .player-badge {
+            background-color: #2a2a2a;
+            border: 1px solid #353535;
+        }
+
+        .nav-item {
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            color: #CDFD00;
+        }
+
+        .active-nav {
+            color: #CDFD00;
+            border-bottom: 2px solid #CDFD00;
+        }
+    </style>
+</head>
+
+<body class="pb-24 lg:pb-0">
+    <!-- Desktop Sidebar -->
+    <nav
+        class="hidden lg:flex fixed left-0 top-0 h-full w-20 flex-col items-center py-8 bg-[#1f1f1f] border-r border-[#353535] z-50">
+        <div class="mb-12">
+            <span class="material-symbols-outlined text-acid-lime text-4xl">sports_score</span>
+        </div>
+        <div class="flex flex-col space-y-8 flex-1">
+            <a href="dashboard.html" class="nav-item"><span class="material-symbols-outlined">dashboard</span></a>
+            <a href="team_management.html" class="nav-item active-nav"><span
+                    class="material-symbols-outlined">groups</span></a>
+            <a href="match_entry.html" class="nav-item" data-role="organizer"><span
+                    class="material-symbols-outlined">edit_square</span></a>
+            <a href="capocannonieri.html" class="nav-item"><span
+                    class="material-symbols-outlined">military_tech</span></a>
+        </div>
+        <button onclick="App.confirmLogout()" class="nav-item"><span class="material-symbols-outlined">logout</span></button>
+    </nav>
+
+    <main class="lg:ml-20 p-6 max-w-7xl mx-auto">
+        <header class="mb-10 flex justify-between items-end">
+            <div>
+                <h2 class="text-gray-400 font-inter uppercase text-xs tracking-widest mb-1">Roster & Squadre</h2>
+                <h1 class="text-4xl font-montserrat font-bold uppercase italic leading-none">Gestione Squadre</h1>
+            </div>
+            <div id="organizer-tools" class="hidden flex gap-3">
+                <button onclick="showRandomizeModal()"
+                    class="bg-[#1f1f1f] border border-[#353535] text-acid-lime px-6 py-3 rounded-full font-montserrat font-bold uppercase text-sm tracking-wide hover:border-acid-lime transition-all">
+                    Randomizza Gironi
+                </button>
+                <button onclick="showTeamModal()"
+                    class="bg-acid-lime text-onyx px-6 py-3 rounded-full font-montserrat font-bold uppercase text-sm tracking-wide hover:bg-white transition-all">
+                    Aggiungi Squadra
+                </button>
+            </div>
+        </header>
+
+        <!-- Search & Filter -->
+        <div class="mb-8 flex flex-col md:flex-row gap-4">
+            <div class="flex-1 relative">
+                <span class="material-symbols-outlined absolute left-4 top-3 text-gray-500">search</span>
+                <input type="text" placeholder="Cerca squadra..." oninput="Page.render(this.value)"
+                    class="w-full bg-[#1f1f1f] border border-[#353535] rounded-xl pl-12 pr-4 py-3 text-white focus:outline-none focus:border-acid-lime font-inter">
+            </div>
+            <div class="w-full md:w-64">
+                <select id="t-selector" onchange="Page.updateUrlFilter(this.value)"
+                    class="w-full bg-[#1f1f1f] border border-[#353535] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-acid-lime font-inter">
+                    <option value="">Tutti i tornei</option>
+                    <!-- Dynamic -->
+                </select>
+            </div>
+        </div>
+
+        <!-- Team Grid -->
+        <div id="team-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamic Content -->
+        </div>
+    </main>
+
+    <!-- Mobile Nav -->
+    <nav
+        class="lg:hidden fixed bottom-0 left-0 w-full bg-[#1f1f1f] border-t border-[#353535] flex justify-around items-center py-4 z-50">
+        <a href="dashboard.html" class="nav-item"><span class="material-symbols-outlined">dashboard</span></a>
+        <a href="team_management.html" class="nav-item active-nav"><span
+                class="material-symbols-outlined">groups</span></a>
+        <a href="match_entry.html" class="nav-item" data-role="organizer"><span
+                class="material-symbols-outlined">edit_square</span></a>
+        <a href="capocannonieri.html" class="nav-item"><span class="material-symbols-outlined">military_tech</span></a>
+    </nav>
+
+    <!-- Modals -->
+    <div id="team-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 hidden z-[100]">
+        <div class="bg-[#1f1f1f] rounded-3xl p-8 max-w-md w-full border border-acid-lime">
+            <h2 id="modal-title" class="font-montserrat font-bold text-2xl uppercase italic mb-6">Nuova Squadra</h2>
+            <div class="space-y-4">
+                <input type="text" id="team-name" placeholder="Nome Squadra"
+                    class="w-full bg-[#2a2a2a] border border-[#353535] rounded-xl px-4 py-3 text-white">
+                <div class="space-y-2">
+                    <label class="block text-[10px] text-gray-500 uppercase tracking-widest px-1">Numero
+                        Partecipanti</label>
+                    <input type="number" id="team-size" placeholder="Es: 10"
+                        class="w-full bg-[#2a2a2a] border border-[#353535] rounded-xl px-4 py-3 text-white">
+                </div>
+                <select id="team-tournament"
+                    class="w-full bg-[#2a2a2a] border border-[#353535] rounded-xl px-4 py-3 text-white">
+                    <!-- Dynamic -->
+                </select>
+                <button onclick="saveTeam()"
+                    class="w-full bg-acid-lime text-onyx py-4 rounded-xl font-montserrat font-bold uppercase tracking-wider">Salva</button>
+                <button onclick="hideModal('team-modal')"
+                    class="w-full text-gray-500 font-inter text-sm uppercase">Annulla</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Player Modal -->
+    <div id="player-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 hidden z-[100]">
+        <div class="bg-[#1f1f1f] rounded-3xl p-8 max-w-md w-full border border-moss-green">
+            <h2 class="font-montserrat font-bold text-2xl uppercase italic mb-6">Aggiungi Giocatore</h2>
+            <div class="space-y-4 text-center">
+                <div
+                    class="w-24 h-24 bg-[#2a2a2a] rounded-full mx-auto mb-4 border-2 border-dashed border-gray-600 flex items-center justify-center overflow-hidden relative">
+                    <img id="p-photo-preview" src="" class="hidden w-full h-full object-cover">
+                    <span id="p-photo-placeholder" class="material-symbols-outlined text-gray-500">add_a_photo</span>
+                    <input type="file" id="p-photo" accept="image/*" onchange="previewPhoto(this)"
+                        class="absolute inset-0 opacity-0 cursor-pointer">
+                </div>
+                <input type="text" id="p-name" placeholder="Nome Completo"
+                    class="w-full bg-[#2a2a2a] border border-[#353535] rounded-xl px-4 py-3 text-white">
+                <button onclick="savePlayer()"
+                    class="w-full bg-acid-lime text-onyx py-4 rounded-xl font-montserrat font-bold uppercase tracking-wider">Aggiungi</button>
+                <button onclick="hideModal('player-modal')"
+                    class="w-full text-gray-500 font-inter text-sm uppercase">Annulla</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Limit Prompt Modal -->
+    <div id="limit-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 hidden z-[110]">
+        <div class="bg-[#1f1f1f] rounded-3xl p-8 max-w-md w-full border border-red-500">
+            <h2 class="font-montserrat font-bold text-2xl uppercase italic mb-4 text-red-500">Attenzione</h2>
+            <p class="text-gray-300 font-inter mb-6">Il Beach Volleyball richiede almeno 2 giocatori per squadra.
+                Assicurati che la squadra sia completa prima della partita.</p>
+            <button id="fix-limit-btn"
+                class="w-full bg-acid-lime text-onyx py-4 rounded-xl font-montserrat font-bold uppercase tracking-wider">Ho
+                Capito</button>
+        </div>
+    </div>
+
+    <script src="js/store.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 hidden z-[200]">
+        <div class="bg-[#1f1f1f] rounded-3xl p-8 max-w-sm w-full border border-red-500">
+            <h2 class="font-montserrat font-bold text-2xl uppercase italic mb-4 text-red-500 text-center">Logout</h2>
+            <p class="text-gray-300 font-inter mb-8 text-center text-sm">Sei sicuro di voler uscire dal tuo account?</p>
+            <div class="flex flex-col gap-3">
+                <button onclick="App.logout()"
+                    class="w-full bg-red-500 text-white py-4 rounded-xl font-montserrat font-bold uppercase tracking-wider hover:bg-red-600 transition-all">Esci</button>
+                <button onclick="App.hideModal('logout-modal')"
+                    class="w-full text-gray-500 font-inter text-sm uppercase">Annulla</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let currentTeamId = null;
+        let activePhoto = null;
+
+        const Page = {
+            init: () => {
+                const user = Store.getCurrentUser();
+                const tools = document.getElementById('organizer-tools');
+                const randomizeBtn = tools.querySelector('button[onclick="showRandomizeModal()"]');
+
+                if (user.role === 'organizer') {
+                    tools.classList.remove('hidden');
+                }
+
+                const ts = Store.getTournaments();
+                document.getElementById('team-tournament').innerHTML = ts.map(t => `<option value="${t.id}">${t.name} (${t.sport})</option>`).join('');
+                document.getElementById('t-selector').innerHTML += ts.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const tId = urlParams.get('tId');
+                if (tId) document.getElementById('t-selector').value = tId;
+
+                if (urlParams.get('action') === 'new') {
+                    showTeamModal();
+                    if (tId) document.getElementById('team-tournament').value = tId;
+                }
+
+                Page.render();
+            },
+            updateUrlFilter: (tId) => {
+                const url = new URL(window.location);
+                if (tId) url.searchParams.set('tId', tId);
+                else url.searchParams.delete('tId');
+                window.history.pushState({}, '', url);
+                Page.render();
+            },
+            render: (filter = '') => {
+                const teams = Store.getTeams();
+                const user = Store.getCurrentUser();
+                const ts = Store.getTournaments();
+                if (ts.length === 0) {
+                    document.getElementById('team-grid').innerHTML = `
+                        <div class="col-span-full text-center py-20 bg-[#1f1f1f] rounded-3xl border border-[#353535]">
+                            <p class="text-gray-500 font-inter">Non ci sono tornei attivi. Crea un torneo dalla dashboard per iniziare.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                const grid = document.getElementById('team-grid');
+                grid.innerHTML = '';
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const tId = parseInt(urlParams.get('tId'));
+
+                let filteredTeams = teams.filter(t => t.name.toLowerCase().includes(filter.toLowerCase()));
+                if (tId) filteredTeams = filteredTeams.filter(t => t.tournamentId === tId);
+
+                // Group by groupName
+                const groups = {};
+                filteredTeams.forEach(t => {
+                    const g = t.groupName || 'Senza Girone';
+                    if (!groups[g]) groups[g] = [];
+                    groups[g].push(t);
+                });
+
+                Object.keys(groups).sort().forEach(groupName => {
+                    const groupTitle = document.createElement('div');
+                    groupTitle.className = 'col-span-full mb-2 mt-6';
+                    groupTitle.innerHTML = `<h3 class="text-acid-lime font-montserrat font-bold uppercase italic text-lg tracking-wider">${groupName}</h3><div class="h-px bg-[#353535] mt-2"></div>`;
+                    grid.appendChild(groupTitle);
+
+                    groups[groupName].forEach(t => {
+                        const tournament = ts.find(tr => tr.id === t.tournamentId);
+                        const canEdit = user.role === 'organizer' || (user.role === 'player' && t.owner === user.username);
+
+                        const card = document.createElement('div');
+                        card.className = 'team-card p-6';
+                        card.innerHTML = `
+                                <div class="flex justify-between items-start mb-4">
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <h3 class="font-montserrat font-bold text-xl uppercase italic text-white">${t.name}</h3>
+                                            <span class="bg-acid-lime/10 text-acid-lime text-[10px] px-2 py-0.5 rounded-full font-bold">${t.size || 0} PART.</span>
+                                            ${tournament && (t.players || []).length < Store.getMinPlayers(tournament.sport) ? `
+                                                <span class="bg-red-500/10 text-red-500 text-[10px] px-2 py-0.5 rounded-full font-bold border border-red-500/20">INCOMPLETA</span>
+                                            ` : ''}
+                                        </div>
+                                        <p class="text-xs text-gray-500 font-inter uppercase tracking-widest">${tournament ? tournament.name : 'Unknown'}${tournament ? ' - ' + tournament.sport : ''}</p>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        ${canEdit ? `<button onclick="showPlayerModal(${t.id})" class="text-acid-lime"><span class="material-symbols-outlined">person_add</span></button>` : ''}
+                                        ${user.role === 'organizer' ? `<button onclick="confirmDeleteTeam(${t.id}, '${t.name}')" class="text-red-500/50 hover:text-red-500 transition-colors"><span class="material-symbols-outlined">delete_sweep</span></button>` : ''}
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-2">
+                                    ${(t.players || []).length > 0 ? t.players.map(p => `
+                                        <div class="flex justify-between items-center bg-[#2a2a2a] p-3 rounded-xl border border-transparent hover:border-[#353535] transition-all">
+                                            <span class="font-inter text-sm text-gray-300 font-medium">${p.name} <span class="text-[10px] text-gray-500 ml-1">${p.number ? '#' + p.number : ''}</span></span>
+                                            <div class="flex items-center gap-3">
+                                                ${canEdit ? `<button onclick="deletePlayer(${t.id}, ${p.id})" class="text-gray-600 hover:text-red-500 transition-colors"><span class="material-symbols-outlined text-sm">close</span></button>` : ''}
+                                            </div>
+                                        </div>
+                                    `).join('') : ''}
+                                </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+                });
+            }
+        };
+
+        function showTeamModal() { document.getElementById('team-modal').classList.remove('hidden'); }
+        function hideTeamModal() { document.getElementById('team-modal').classList.add('hidden'); }
+        function showPlayerModal(id) {
+            currentTeamId = id;
+            document.getElementById('player-modal').classList.remove('hidden');
+        }
+        function hidePlayerModal() { document.getElementById('player-modal').classList.add('hidden'); }
+
+        function hideModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function showRandomizeModal() {
+            const tId = parseInt(document.getElementById('t-selector').value);
+            if (!tId) {
+                alert("Seleziona un torneo dal menu a tendina accanto alla ricerca per poter randomizzare i gironi.");
+                return;
+            }
+            const ts = Store.getTournaments();
+            const tournament = ts.find(t => t.id === tId);
+            const num = prompt(`In quanti gironi vuoi dividere le squadre del torneo "${tournament.name}"?`);
+            if (num) {
+                const res = Store.randomizeGroups(tId, parseInt(num));
+                if (res.success) {
+                    alert("Gironi creati con successo!");
+                    Page.render();
+                } else {
+                    alert(res.msg);
+                }
+            }
+        }
+
+        function previewPhoto(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    activePhoto = e.target.result;
+                    document.getElementById('p-photo-preview').src = activePhoto;
+                    document.getElementById('p-photo-preview').classList.remove('hidden');
+                    document.getElementById('p-photo-placeholder').classList.add('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveTeam() {
+            const name = document.getElementById('team-name').value;
+            const size = parseInt(document.getElementById('team-size').value) || 0;
+            const tId = parseInt(document.getElementById('team-tournament').value);
+            
+            if (!name) { alert("Inserisci il nome della squadra."); return; }
+            if (isNaN(tId)) { alert("Seleziona un torneo."); return; }
+            
+            const tournament = Store.getTournaments().find(t => t.id === tId);
+            if (tournament) {
+                const minPlayers = Store.getMinPlayers(tournament.sport);
+                if (size < minPlayers) {
+                    alert(`Il numero minimo di partecipanti per ${tournament.sport.replace('_', ' ')} è ${minPlayers}.`);
+                    return;
+                }
+            }
+
+            Store.addTeam({ name, tournamentId: tId, size: size });
+            hideTeamModal();
+            Page.render();
+        }
+
+        function savePlayer() {
+            const name = document.getElementById('p-name').value;
+            if (!name || !currentTeamId) return;
+
+            const team = Store.getTeams().find(t => t.id === currentTeamId);
+            const tournament = Store.getTournaments().find(tor => tor.id == team.tournamentId);
+
+            // No more hard max limit block
+
+            Store.addPlayerToTeam(currentTeamId, { name, photo: activePhoto });
+            hideModal('player-modal');
+            activePhoto = null;
+            document.getElementById('p-name').value = '';
+            document.getElementById('p-photo-preview').classList.add('hidden');
+            document.getElementById('p-photo-placeholder').classList.remove('hidden');
+            Page.render();
+        }
+
+        function deletePlayer(teamId, playerId) {
+            if (confirm("Sei sicuro di voler rimuovere questo giocatore?")) {
+                Store.removePlayerFromTeam(teamId, playerId);
+                Page.render();
+            }
+        }
+
+        function confirmDeleteTeam(id, name) {
+            if (confirm(`Sei sicuro di voler eliminare definitivamente la squadra "${name}"? Questa azione non può essere annullata.`)) {
+                Store.deleteTeam(id);
+                Page.render();
+            }
+        }
+
+        function promptLimitFix(id) {
+            currentTeamId = id;
+            const modal = document.getElementById('limit-modal');
+            modal.classList.remove('hidden');
+            document.getElementById('fix-limit-btn').onclick = () => {
+                modal.classList.add('hidden');
+                // Open team edit view (simplifying to just alert for now, but logical flow is here)
+                alert("Rimuovi i giocatori in eccesso nella prossima versione.");
+            };
+        }
+    </script>
+</body>
+
+</html>

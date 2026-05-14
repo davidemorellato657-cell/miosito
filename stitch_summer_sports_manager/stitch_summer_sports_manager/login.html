@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login - Summer Sports Cup</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SummerCup">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#131313">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'surface': '#131313',
+                        'primary': '#ffffff',
+                        'acid-lime': '#c5f400',
+                        'outline': '#8e9379',
+                        'onyx': '#131313',
+                    },
+                    fontFamily: {
+                        'montserrat': ['Montserrat', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #131313; color: #e2e2e2; }
+        .btn-primary { 
+            background-color: #CDFD00; 
+            color: #131313; 
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover { 
+            background-color: #ffffff;
+            transform: translateY(-2px);
+        }
+        .role-card {
+            border: 2px solid #353535;
+            transition: all 0.3s ease;
+        }
+        .role-card.active {
+            border-color: #CDFD00;
+            background-color: rgba(205, 253, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-[#1f1f1f] rounded-2xl p-8 shadow-2xl border border-[#353535]">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-montserrat font-extrabold italic text-acid-lime uppercase tracking-tighter">Summer Sports Cup</h1>
+            <p id="auth-title" class="text-gray-400 font-inter text-sm">Accedi al tuo account</p>
+        </div>
+
+        <div class="space-y-4">
+            <div id="auth-fields">
+                <label class="block text-xs font-inter uppercase tracking-widest text-gray-500 mb-2">Credenziali</label>
+                <div class="space-y-3">
+                    <input type="text" id="username" placeholder="Nome Utente" 
+                        class="w-full bg-[#2a2a2a] border border-[#353535] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-acid-lime transition-colors font-inter hidden">
+                    <input type="email" id="email" placeholder="Email" 
+                        class="w-full bg-[#2a2a2a] border border-[#353535] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-acid-lime transition-colors font-inter">
+                    <input type="password" id="password" placeholder="Password" 
+                        class="w-full bg-[#2a2a2a] border border-[#353535] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-acid-lime transition-colors font-inter">
+                </div>
+                <div id="forgot-pw-container" class="text-right mt-2">
+                    <button onclick="setResetMode()" class="text-[10px] text-gray-500 hover:text-acid-lime uppercase tracking-widest transition-colors">Password dimenticata?</button>
+                </div>
+            </div>
+
+            <div id="social-section" class="pt-2">
+                <p class="text-[10px] text-gray-600 uppercase text-center mb-4">Oppure continua con</p>
+                <div class="flex justify-center gap-4">
+                    <button onclick="mockSocialAuth('Google')" class="w-12 h-12 rounded-full bg-[#2a2a2a] border border-[#353535] flex items-center justify-center hover:border-white transition-all">
+                        <img src="https://www.svgrepo.com/show/355037/google.svg" class="w-5 h-5">
+                    </button>
+                    <button onclick="mockSocialAuth('Apple')" class="w-12 h-12 rounded-full bg-[#2a2a2a] border border-[#353535] flex items-center justify-center hover:border-white transition-all">
+                        <img src="https://www.svgrepo.com/show/305712/apple.svg" class="w-5 h-5 invert">
+                    </button>
+                    <button onclick="mockSocialAuth('Facebook')" class="w-12 h-12 rounded-full bg-[#2a2a2a] border border-[#353535] flex items-center justify-center hover:border-white transition-all">
+                        <img src="https://www.svgrepo.com/show/353733/facebook.svg" class="w-5 h-5">
+                    </button>
+                </div>
+            </div>
+
+            <div id="role-selection" class="pt-4">
+                <label class="block text-xs font-inter uppercase tracking-widest text-gray-500 mb-3">Seleziona il tuo Ruolo</label>
+                <div class="grid grid-cols-1 gap-3">
+                    <button onclick="setRole('organizer', this)" class="role-card w-full flex items-center p-4 rounded-xl text-left hover:bg-[#2a2a2a]">
+                        <div class="flex-1">
+                            <div class="font-montserrat font-bold text-white uppercase text-sm">Organizzatore</div>
+                            <div class="text-xs text-gray-400 font-inter">Controllo totale sui tornei</div>
+                        </div>
+                    </button>
+                    <button onclick="setRole('player', this)" class="role-card w-full flex items-center p-4 rounded-xl text-left hover:bg-[#2a2a2a]">
+                        <div class="flex-1">
+                            <div class="font-montserrat font-bold text-white uppercase text-sm">Giocatore</div>
+                            <div class="text-xs text-gray-400 font-inter">Gestisci la tua squadra e profilo</div>
+                        </div>
+                    </button>
+                    <button onclick="setRole('spectator', this)" class="role-card w-full flex items-center p-4 rounded-xl text-left hover:bg-[#2a2a2a]">
+                        <div class="flex-1">
+                            <div class="font-montserrat font-bold text-white uppercase text-sm">Spettatore</div>
+                            <div class="text-xs text-gray-400 font-inter">Solo visualizzazione statistiche</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <button id="auth-btn" onclick="handleAuth()" class="btn-primary w-full py-4 rounded-xl uppercase text-lg tracking-wide shadow-lg mt-4">
+                Accedi
+            </button>
+
+            <div class="text-center mt-6">
+                <button id="toggle-auth" onclick="toggleAuthMode()" class="text-xs text-gray-500 hover:text-acid-lime font-inter uppercase tracking-widest">
+                    Non hai un account? <span class="font-bold">Registrati</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/store.js"></script>
+    <script>
+        let selectedRole = null;
+        let authMode = 'login'; // login, register, reset
+
+        window.onload = () => {
+            setMode('login');
+        };
+
+        function toggleAuthMode() {
+            if (authMode === 'login') {
+                setMode('register');
+            } else {
+                setMode('login');
+            }
+        }
+
+        function setResetMode() {
+            setMode('reset');
+        }
+
+        function setMode(mode) {
+            authMode = mode;
+            const title = document.getElementById('auth-title');
+            const btn = document.getElementById('auth-btn');
+            const toggle = document.getElementById('toggle-auth');
+            const forgot = document.getElementById('forgot-pw-container');
+            const roleSection = document.getElementById('role-selection');
+            const socialSection = document.getElementById('social-section');
+            const pwInput = document.getElementById('password');
+            const emailInput = document.getElementById('email');
+            const usernameInput = document.getElementById('username');
+
+            if (mode === 'login') {
+                title.innerText = 'Accedi al tuo account';
+                btn.innerText = 'Accedi';
+                toggle.innerHTML = 'Non hai un account? <span class="font-bold">Registrati</span>';
+                forgot.classList.remove('hidden');
+                roleSection.classList.remove('hidden');
+                socialSection.classList.remove('hidden');
+                usernameInput.classList.remove('hidden');
+                emailInput.classList.add('hidden');
+                pwInput.placeholder = 'Password';
+            } else if (mode === 'register') {
+                title.innerText = 'Crea un nuovo account';
+                btn.innerText = 'Registrati';
+                toggle.innerHTML = 'Hai già un account? <span class="font-bold">Accedi</span>';
+                forgot.classList.add('hidden');
+                roleSection.classList.remove('hidden');
+                socialSection.classList.remove('hidden');
+                usernameInput.classList.remove('hidden');
+                emailInput.classList.remove('hidden');
+                pwInput.placeholder = 'Password';
+            } else if (mode === 'reset') {
+                title.innerText = 'Reimposta Password';
+                btn.innerText = 'Salva Nuova Password';
+                toggle.innerHTML = 'Torna al <span class="font-bold">Login</span>';
+                forgot.classList.add('hidden');
+                roleSection.classList.add('hidden');
+                socialSection.classList.add('hidden');
+                usernameInput.classList.add('hidden');
+                emailInput.classList.remove('hidden');
+                pwInput.placeholder = 'Nuova Password';
+            }
+        }
+
+        function setRole(role, element) {
+            selectedRole = role;
+            document.querySelectorAll('.role-card').forEach(card => card.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        function handleAuth() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const username = document.getElementById('username').value;
+            
+            if (authMode === 'login' && (!username || !password)) {
+                alert('Inserisci nome utente e password');
+                return;
+            }
+            if (authMode === 'register' && (!email || !password || !username)) {
+                alert('Inserisci tutti i campi (Username, Email, Password)');
+                return;
+            }
+
+            if (authMode === 'register') {
+                if (!selectedRole) {
+                    alert('Seleziona un ruolo per la registrazione');
+                    return;
+                }
+                const res = Store.register(email, password, username, selectedRole);
+                if (res.success) {
+                    alert('Registrazione avvenuta con successo! Ora puoi accedere.');
+                    setMode('login');
+                } else {
+                    alert(res.msg);
+                }
+            } else if (authMode === 'login') {
+                const res = Store.verifyAndLogin(username, password);
+                if (res.success) {
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert(res.msg);
+                    if (res.msg.includes('Registrati')) {
+                        setMode('register');
+                    }
+                }
+            } else if (authMode === 'reset') {
+                const res = Store.resetPassword(email, password);
+                if (res.success) {
+                    alert('Password aggiornata con successo! Ora puoi accedere.');
+                    setMode('login');
+                } else {
+                    alert(res.msg);
+                }
+            }
+        }
+
+        function mockSocialAuth(provider) {
+            if (!selectedRole) {
+                alert('Seleziona un ruolo prima di continuare con ' + provider);
+                return;
+            }
+            Store.login(provider + ' User', selectedRole);
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>

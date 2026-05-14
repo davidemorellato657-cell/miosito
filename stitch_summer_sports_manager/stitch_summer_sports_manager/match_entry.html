@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Inserimento Risultati - Summer Sports Cup</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SummerCup">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#131313">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="manifest" href="manifest.json">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'surface': '#131313',
+                        'primary': '#ffffff',
+                        'acid-lime': '#c5f400',
+                        'moss-green': '#688012',
+                        'onyx': '#131313',
+                    },
+                    fontFamily: {
+                        'montserrat': ['Montserrat', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #131313; color: #e2e2e2; }
+        .match-card {
+            background-color: #1f1f1f;
+            border: 1px solid #353535;
+            border-radius: 1.5rem;
+            padding: 2rem;
+        }
+        .input-score {
+            background-color: #2a2a2a;
+            border: 2px solid #353535;
+            border-radius: 1rem;
+            width: 80px;
+            height: 80px;
+            text-align: center;
+            font-size: 2rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            color: #CDFD00;
+        }
+        .input-score:focus { border-color: #CDFD00; outline: none; }
+        .nav-item { transition: all 0.2s ease; }
+        .nav-item:hover { color: #CDFD00; }
+        .active-nav { color: #CDFD00; border-bottom: 2px solid #CDFD00; }
+    </style>
+</head>
+<body class="pb-24 lg:pb-0">
+    <!-- Desktop Sidebar -->
+    <nav class="hidden lg:flex fixed left-0 top-0 h-full w-20 flex-col items-center py-8 bg-[#1f1f1f] border-r border-[#353535] z-50">
+        <div class="mb-12">
+            <span class="material-symbols-outlined text-acid-lime text-4xl">sports_score</span>
+        </div>
+        <div class="flex flex-col space-y-8 flex-1">
+            <a href="dashboard.html" class="nav-item"><span class="material-symbols-outlined">dashboard</span></a>
+            <a href="team_management.html" class="nav-item"><span class="material-symbols-outlined">groups</span></a>
+            <a href="match_entry.html" class="nav-item active-nav" data-role="organizer"><span class="material-symbols-outlined">edit_square</span></a>
+            <a href="capocannonieri.html" class="nav-item"><span class="material-symbols-outlined">military_tech</span></a>
+        </div>
+        <button onclick="App.confirmLogout()" class="nav-item"><span class="material-symbols-outlined">logout</span></button>
+    </nav>
+
+    <main class="lg:ml-20 p-6 max-w-3xl mx-auto">
+        <header class="mb-10">
+            <h2 class="text-gray-400 font-inter uppercase text-xs tracking-widest mb-1">Amministrazione</h2>
+            <h1 class="text-4xl font-montserrat font-bold uppercase italic leading-none">Risultati</h1>
+        </header>
+
+        <div class="match-card">
+            <div class="space-y-6">
+                <!-- Tournament Select -->
+                <div>
+                    <label class="block text-xs font-inter uppercase tracking-widest text-gray-500 mb-2">Seleziona Torneo</label>
+                    <select id="m-tournament" onchange="Page.updateTeams()" class="w-full bg-[#2a2a2a] border border-[#353535] rounded-xl px-4 py-3 text-white">
+                        <option value="">Scegli un torneo...</option>
+                        <!-- Dynamic -->
+                    </select>
+                </div>
+
+                <div id="match-form" class="hidden space-y-8 pt-6 border-t border-[#353535]">
+                    <!-- Score Input -->
+                    <div class="flex items-center justify-between gap-4">
+                        <div class="flex-1 text-center">
+                            <select id="m-team-a" class="w-full bg-transparent text-center font-montserrat font-bold uppercase text-lg mb-4 focus:outline-none">
+                                <!-- Dynamic -->
+                            </select>
+                            <input type="number" id="m-score-a" value="0" min="0" class="input-score">
+                        </div>
+                        <div class="text-4xl font-montserrat font-black italic text-gray-700">VS</div>
+                        <div class="flex-1 text-center">
+                            <select id="m-team-b" class="w-full bg-transparent text-center font-montserrat font-bold uppercase text-lg mb-4 focus:outline-none">
+                                <!-- Dynamic -->
+                            </select>
+                            <input type="number" id="m-score-b" value="0" min="0" class="input-score">
+                        </div>
+                    </div>
+
+                    <!-- Goal Scorers (Soccer only) -->
+                    <div id="goal-scorers-section" class="hidden space-y-4">
+                        <h3 class="font-montserrat font-bold uppercase italic text-sm text-acid-lime">Marcatori</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div id="scorers-a" class="space-y-2">
+                                <p class="text-[10px] uppercase text-gray-500 font-inter">Squadra Casa</p>
+                                <!-- Dynamic -->
+                            </div>
+                            <div id="scorers-b" class="space-y-2">
+                                <p class="text-[10px] uppercase text-gray-500 font-inter">Squadra Ospite</p>
+                                <!-- Dynamic -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="saveMatch()" class="w-full bg-acid-lime text-onyx py-5 rounded-2xl font-montserrat font-bold uppercase text-lg tracking-widest shadow-xl hover:bg-white transition-all">
+                        Registra Risultato
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Nav -->
+    <nav class="lg:hidden fixed bottom-0 left-0 w-full bg-[#1f1f1f] border-t border-[#353535] flex justify-around items-center py-4 z-50">
+        <a href="dashboard.html" class="nav-item"><span class="material-symbols-outlined">dashboard</span></a>
+        <a href="team_management.html" class="nav-item"><span class="material-symbols-outlined">groups</span></a>
+        <a href="match_entry.html" class="nav-item active-nav" data-role="organizer"><span class="material-symbols-outlined">edit_square</span></a>
+        <a href="capocannonieri.html" class="nav-item"><span class="material-symbols-outlined">military_tech</span></a>
+    </nav>
+
+    <script src="js/store.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 hidden z-[200]">
+        <div class="bg-[#1f1f1f] rounded-3xl p-8 max-w-sm w-full border border-red-500">
+            <h2 class="font-montserrat font-bold text-2xl uppercase italic mb-4 text-red-500 text-center">Logout</h2>
+            <p class="text-gray-300 font-inter mb-8 text-center text-sm">Sei sicuro di voler uscire dal tuo account?</p>
+            <div class="flex flex-col gap-3">
+                <button onclick="App.logout()"
+                    class="w-full bg-red-500 text-white py-4 rounded-xl font-montserrat font-bold uppercase tracking-wider hover:bg-red-600 transition-all">Esci</button>
+                <button onclick="App.hideModal('logout-modal')"
+                    class="w-full text-gray-500 font-inter text-sm uppercase">Annulla</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const Page = {
+            init: () => {
+                const ts = Store.getTournaments();
+                const select = document.getElementById('m-tournament');
+                if (ts.length === 0) {
+                    select.innerHTML = '<option value="">Nessun torneo attivo</option>';
+                    document.getElementById('match-form').innerHTML = `
+                        <div class="text-center py-20 bg-[#1f1f1f] rounded-3xl border border-[#353535]">
+                            <p class="text-gray-500 font-inter">Crea un torneo dalla dashboard per inserire risultati.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                select.innerHTML = ts.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+                Page.updateTeams();
+            },
+            updateTeams: () => {
+                const tId = parseInt(document.getElementById('m-tournament').value);
+                if (!tId) {
+                    document.getElementById('match-form').classList.add('hidden');
+                    return;
+                }
+
+                const tournament = Store.getTournaments().find(t => t.id === tId);
+                const teams = Store.getTeams(tId);
+                const form = document.getElementById('match-form');
+                form.classList.remove('hidden');
+
+                const soccerSports = ['calcio', 'calcetto'];
+                const isSoccer = soccerSports.includes(tournament.sport);
+                document.getElementById('goal-scorers-section').classList.toggle('hidden', !isSoccer);
+
+                const teamSelects = ['m-team-a', 'm-team-b'];
+                teamSelects.forEach(id => {
+                    const sel = document.getElementById(id);
+                    sel.innerHTML = teams.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+                    sel.onchange = () => {
+                        // Reset goals when team selection changes
+                        for (const key in matchGoals) delete matchGoals[key];
+                        if (isSoccer) Page.renderScorers(teams);
+                    };
+                });
+
+                // Reset goals on initial load of teams
+                for (const key in matchGoals) delete matchGoals[key];
+                
+                if (isSoccer) {
+                    Page.renderScorers(teams);
+                }
+            },
+            renderScorers: (teams) => {
+                const soccerSports = ['calcio', 'calcetto'];
+                const tId = parseInt(document.getElementById('m-tournament').value);
+                const tournament = Store.getTournaments().find(t => t.id === tId);
+                if (!soccerSports.includes(tournament.sport)) return;
+
+                const teamAId = parseInt(document.getElementById('m-team-a').value);
+                const teamBId = parseInt(document.getElementById('m-team-b').value);
+                
+                const teamA = teams.find(t => t.id === teamAId);
+                const teamB = teams.find(t => t.id === teamBId);
+
+                if (!teamA || !teamB) return;
+
+                const renderList = (team, containerId) => {
+                    const container = document.getElementById(containerId);
+                    container.innerHTML = `
+                        <p class="text-[10px] uppercase text-gray-500 font-inter mb-2">Giocatori ${team.name}</p>
+                        <div class="space-y-1">
+                            ${team.players.map(p => `
+                                <div class="flex items-center justify-between p-2 bg-[#131313] rounded-lg">
+                                    <span class="text-xs font-inter">${p.name}</span>
+                                    <div class="flex items-center gap-2">
+                                        <button onclick="changeGoalCount(${team.id}, ${p.id}, -1)" class="text-gray-500 hover:text-white"><span class="material-symbols-outlined text-sm">remove</span></button>
+                                        <span id="goals-${team.id}-${p.id}" class="text-acid-lime font-montserrat font-bold text-sm">0</span>
+                                        <button onclick="changeGoalCount(${team.id}, ${p.id}, 1)" class="text-gray-500 hover:text-white"><span class="material-symbols-outlined text-sm">add</span></button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                };
+
+                renderList(teamA, 'scorers-a');
+                renderList(teamB, 'scorers-b');
+            }
+        };
+
+        const matchGoals = {}; // Temporary state for goals in this match
+
+        function changeGoalCount(teamId, playerId, delta) {
+            const key = `${teamId}-${playerId}`;
+            matchGoals[key] = Math.max(0, (matchGoals[key] || 0) + delta);
+            document.getElementById(`goals-${teamId}-${playerId}`).innerText = matchGoals[key];
+            
+            // Auto-update match score based on total goals assigned?
+            // User said "punti sono sempre calcolati automaticamente dal risultato inserito".
+            // Actually, usually the score is entered first, then scorers. 
+            // I'll leave score independent but show a warning if they don't match.
+        }
+
+        function saveMatch() {
+            const tId = parseInt(document.getElementById('m-tournament').value);
+            const teamAId = parseInt(document.getElementById('m-team-a').value);
+            const teamBId = parseInt(document.getElementById('m-team-b').value);
+            const scoreA = parseInt(document.getElementById('m-score-a').value);
+            const scoreB = parseInt(document.getElementById('m-score-b').value);
+
+            if (teamAId === teamBId) {
+                alert("Seleziona due squadre diverse.");
+                return;
+            }
+
+            const tournament = Store.getTournaments().find(t => t.id === tId);
+            const isSoccer = ['calcio', 'calcetto'].includes(tournament.sport);
+            const validation = Store.checkScoreLimit(tournament.sport, scoreA, scoreB);
+            
+            if (!validation.valid) {
+                alert(validation.msg);
+                return;
+            }
+
+            const teamA = Store.getTeams().find(t => t.id === teamAId);
+            const teamB = Store.getTeams().find(t => t.id === teamBId);
+            const minPlayers = Store.getMinPlayers(tournament.sport);
+
+            if (teamA.players.length < minPlayers) {
+                alert(`La squadra "${teamA.name}" non ha abbastanza giocatori. Minimo richiesto per ${tournament.sport}: ${minPlayers}.`);
+                return;
+            }
+            if (teamB.players.length < minPlayers) {
+                alert(`La squadra "${teamB.name}" non ha abbastanza giocatori. Minimo richiesto per ${tournament.sport}: ${minPlayers}.`);
+                return;
+            }
+
+            if (isSoccer) {
+                const checkGoals = (teamId, score) => {
+                    let sum = 0;
+                    Object.keys(matchGoals).forEach(key => {
+                        if (key.startsWith(`${teamId}-`)) {
+                            sum += matchGoals[key];
+                        }
+                    });
+                    return sum === score;
+                };
+
+                if (!checkGoals(teamAId, scoreA) || !checkGoals(teamBId, scoreB)) {
+                    alert("Errore: Il totale dei gol assegnati ai marcatori deve corrispondere al punteggio della squadra.");
+                    return;
+                }
+            }
+
+            Store.addMatch({
+                tournamentId: tId,
+                teamAId,
+                teamBId,
+                scoreA,
+                scoreB,
+                date: new Date().toISOString()
+            }, matchGoals);
+
+            alert("Risultato salvato!");
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>

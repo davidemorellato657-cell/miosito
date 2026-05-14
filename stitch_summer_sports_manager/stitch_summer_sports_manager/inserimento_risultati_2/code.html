@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Summer Cup - Result Entry</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#f3f5df",
+                        "inverse-on-surface": "#f0f3dd",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#add500",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#cdfd00",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "surface-container": "#eef0da",
+                        "tertiary-fixed": "#e2e2e2",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d9dcc6",
+                        "surface-container-highest": "#e2e4cf",
+                        "on-secondary-fixed": "#161e00",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#e8ead4",
+                        "inverse-primary": "#add500",
+                        "outline-variant": "#c4c9ac",
+                        "secondary-container": "#d1ee77",
+                        "on-tertiary-container": "#6a6a6a",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#5b7200",
+                        "secondary": "#516600",
+                        "outline": "#747a60",
+                        "on-error-container": "#93000a",
+                        "surface": "#f9fbe5",
+                        "on-primary-fixed": "#161e00",
+                        "on-surface": "#1a1d10",
+                        "on-secondary-container": "#566c00",
+                        "tertiary-container": "#ebebeb",
+                        "secondary-fixed": "#d1ee77",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#5e5e5e",
+                        "primary": "#516600",
+                        "tertiary-fixed-dim": "#c6c6c6",
+                        "primary-fixed": "#c5f400",
+                        "background": "#f9fbe5",
+                        "on-secondary-fixed-variant": "#3c4d00",
+                        "surface-bright": "#f9fbe5",
+                        "surface-variant": "#e2e4cf",
+                        "on-surface-variant": "#444933",
+                        "on-background": "#1a1d10",
+                        "on-tertiary-fixed": "#1b1b1b",
+                        "surface-tint": "#516600",
+                        "inverse-surface": "#2f3223",
+                        "secondary-fixed-dim": "#b6d25f"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "xl": "64px",
+                        "gutter": "16px",
+                        "xs": "4px",
+                        "lg": "40px",
+                        "margin-mobile": "16px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "margin-desktop": "32px",
+                        "base": "8px"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg": ["Montserrat"]
+                    },
+                    fontSize: {
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+        .dark body {
+            background-color: #000000;
+        }
+    </style>
+</head>
+<body class="bg-background dark:bg-black font-body-md text-on-surface dark:text-inverse-on-surface">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-[#121212] shadow-sm sticky top-0 z-50 flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 border-b border-white/5">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" data-icon="sports_score">sports_score</span>
+<span class="text-headline-md font-headline-md font-extrabold text-primary dark:text-primary-fixed-dim uppercase italic tracking-tighter">SUMMER CUP</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-white/10 transition-colors p-2 rounded-full" data-icon="notifications">notifications</button>
+</div>
+</header>
+<main class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-lg space-y-lg pb-32">
+<!-- Page Title & Sport Selector -->
+<section class="space-y-sm">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-gutter">
+<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface dark:text-white">Enter Match Result</h1>
+<div class="flex gap-xs bg-surface-container dark:bg-white/5 p-1 rounded-xl">
+<button class="bg-primary dark:bg-primary-fixed-dim text-on-primary dark:text-on-primary-fixed font-label-bold text-label-bold px-md py-2 rounded-lg transition-all active:scale-95">Soccer</button>
+<button class="text-on-surface-variant dark:text-outline-variant font-label-bold text-label-bold px-md py-2 rounded-lg hover:bg-surface-container-high dark:hover:bg-white/10 transition-all">Volleyball</button>
+<button class="text-on-surface-variant dark:text-outline-variant font-label-bold text-label-bold px-md py-2 rounded-lg hover:bg-surface-container-high dark:hover:bg-white/10 transition-all">Basketball</button>
+</div>
+</div>
+<p class="text-on-surface-variant dark:text-outline-variant text-body-md">Quarter Finals • Group A • Pitch 4</p>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg items-start">
+<!-- Result Entry Card -->
+<div class="lg:col-span-8 space-y-md">
+<!-- Main Scoreboard Entry -->
+<div class="bg-surface-container-lowest dark:bg-[#1A1A1A] rounded-xl shadow-sm p-md md:p-lg border-l-4 border-secondary-container dark:border-primary-fixed-dim">
+<div class="flex justify-around items-center gap-md">
+<div class="flex flex-col items-center gap-sm flex-1">
+<div class="w-20 h-20 bg-surface-container dark:bg-white/5 rounded-full flex items-center justify-center overflow-hidden">
+<img class="w-16 h-16 object-contain" data-alt="A clean, minimalist sports team logo featuring a stylized blue eagle on a white circular background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHl5bKy5QdOTXL4QtMxJKTliHL9-n3DIystqSglwf2VxR7BARDC3bFEKYWuI9mj3Ulcp9qDXfb_aeuto_bnkzf9YR29z1beLeRXAi2v4jroJ_bkJaRHbu2v2rutW36mkYciLRw-JDSdigyBeQc2Wf9AqVFD4_jAxMJPFay8XFs-yXW0OmCnhkYnKIP4HwiRNQBXMH-mMr3bk-t9RlL-s2QEkoBPDoBQgmM0P5p101_hnJr4Brm5TwPr4fBha8tyW89NZhMaXidcg"/>
+</div>
+<span class="font-headline-md text-headline-md text-center dark:text-white">Coastal Rapids</span>
+<input class="w-24 h-24 text-center font-display-lg text-display-lg bg-surface-container-low dark:bg-white/10 text-on-surface dark:text-primary-fixed-dim border-none rounded-xl focus:ring-2 focus:ring-primary dark:focus:ring-primary-fixed-dim" type="number" value="0"/>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-outline dark:text-outline-variant font-label-bold text-label-bold">VS</span>
+</div>
+<div class="flex flex-col items-center gap-sm flex-1">
+<div class="w-20 h-20 bg-surface-container dark:bg-white/5 rounded-full flex items-center justify-center overflow-hidden">
+<img class="w-16 h-16 object-contain" data-alt="A professional sports team crest for a club named Sunset Strikers." src="https://lh3.googleusercontent.com/aida-public/AB6AXD9YesnFQz_kKBzX8Xbs530NPIK_emA-ko3zK-bhoIzoJ0XMGnIYrUiUGcw3LY0N-DwywKvd4sbIPwX_vt85xc3ypjEvez6gkxbIejKorW9GnqPLoIVglgc9z7HKWknRdja6oGom_UFXCH9ghYM__St3BhjN_T-LbtrlxqF2cYFEvsFby_v6fmnn1UOj_UwtEOL0DpPIMjTk0SRasigrKkJZ0-o2Oh9cgQM6-Ad74wDOtmTh_vAi11bPYrfbXRJzpGDPptkRGlykA"/>
+</div>
+<span class="font-headline-md text-headline-md text-center dark:text-white">Sunset Strikers</span>
+<input class="w-24 h-24 text-center font-display-lg text-display-lg bg-surface-container-low dark:bg-white/10 text-on-surface dark:text-primary-fixed-dim border-none rounded-xl focus:ring-2 focus:ring-primary dark:focus:ring-primary-fixed-dim" type="number" value="0"/>
+</div>
+</div>
+</div>
+<!-- Sport-Specific Dynamic Section -->
+<div class="bg-surface-container-lowest dark:bg-[#1A1A1A] rounded-xl shadow-sm p-md md:p-lg space-y-md">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md flex items-center gap-base dark:text-white">
+<span class="material-symbols-outlined text-secondary dark:text-primary-fixed-dim" data-icon="sports_soccer">sports_soccer</span>
+                            Match Details
+                        </h2>
+<button class="flex items-center gap-xs text-primary dark:text-primary-fixed-dim font-label-bold text-label-bold hover:underline">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_circle">add_circle</span>
+                            Add Scorer
+                        </button>
+</div>
+<div class="space-y-sm">
+<!-- Scorer Row 1 -->
+<div class="grid grid-cols-12 gap-sm items-center p-sm bg-surface-container-low dark:bg-white/5 rounded-lg group">
+<div class="col-span-6 md:col-span-7">
+<label class="text-label-sm text-outline-variant dark:text-outline-variant uppercase mb-xs block">Player Name</label>
+<input class="w-full bg-white dark:bg-[#2A2A2A] border-outline-variant dark:border-white/10 rounded-lg px-sm py-2 focus:border-primary dark:focus:border-primary-fixed-dim text-body-md dark:text-white" placeholder="e.g. Marcus Jensen" type="text"/>
+</div>
+<div class="col-span-3 md:col-span-2">
+<label class="text-label-sm text-outline-variant dark:text-outline-variant uppercase mb-xs block">Goals</label>
+<input class="w-full bg-white dark:bg-[#2A2A2A] border-outline-variant dark:border-white/10 rounded-lg px-sm py-2 focus:border-primary dark:focus:border-primary-fixed-dim text-body-md dark:text-white" type="number" value="1"/>
+</div>
+<div class="col-span-3 md:col-span-2">
+<label class="text-label-sm text-outline-variant dark:text-outline-variant uppercase mb-xs block">Team</label>
+<select class="w-full bg-white dark:bg-[#2A2A2A] border-outline-variant dark:border-white/10 rounded-lg px-sm py-2 focus:border-primary dark:focus:border-primary-fixed-dim text-body-md dark:text-white">
+<option>Rapids</option>
+<option>Strikers</option>
+</select>
+</div>
+<div class="col-span-12 md:col-span-1 flex justify-end">
+<button class="text-error opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Scorer Row 2 -->
+<div class="grid grid-cols-12 gap-sm items-center p-sm bg-surface-container-low dark:bg-white/5 rounded-lg group">
+<div class="col-span-6 md:col-span-7">
+<input class="w-full bg-white dark:bg-[#2A2A2A] border-outline-variant dark:border-white/10 rounded-lg px-sm py-2 focus:border-primary dark:focus:border-primary-fixed-dim text-body-md dark:text-white" placeholder="Player Name" type="text"/>
+</div>
+<div class="col-span-3 md:col-span-2">
+<input class="w-full bg-white dark:bg-[#2A2A2A] border-outline-variant dark:border-white/10 rounded-lg px-sm py-2 focus:border-primary dark:focus:border-primary-fixed-dim text-body-md dark:text-white" type="number" value="1"/>
+</div>
+<div class="col-span-3 md:col-span-2">
+<select class="w-full bg-white dark:bg-[#2A2A2A] border-outline-variant dark:border-white/10 rounded-lg px-sm py-2 focus:border-primary dark:focus:border-primary-fixed-dim text-body-md dark:text-white">
+<option>Rapids</option>
+<option selected="">Strikers</option>
+</select>
+</div>
+<div class="col-span-12 md:col-span-1 flex justify-end">
+<button class="text-error opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Period Breakdown -->
+<div class="bg-surface-container-lowest dark:bg-[#1A1A1A] rounded-xl shadow-sm p-md md:p-lg space-y-md opacity-50 grayscale cursor-not-allowed">
+<h2 class="font-headline-md text-headline-md flex items-center gap-base dark:text-white">
+<span class="material-symbols-outlined text-secondary dark:text-primary-fixed-dim" data-icon="timer">timer</span>
+                        Period Breakdown (Sets/Quarters)
+                    </h2>
+<div class="grid grid-cols-5 gap-sm text-center">
+<div class="font-label-bold text-outline dark:text-outline-variant uppercase">Team</div>
+<div class="font-label-bold text-outline dark:text-outline-variant uppercase">P1</div>
+<div class="font-label-bold text-outline dark:text-outline-variant uppercase">P2</div>
+<div class="font-label-bold text-outline dark:text-outline-variant uppercase">P3</div>
+<div class="font-label-bold text-outline dark:text-outline-variant uppercase">P4</div>
+<div class="text-body-md font-bold dark:text-white">Rapids</div>
+<input class="bg-surface-container dark:bg-white/5 rounded-lg border-none text-center p-1 text-on-surface dark:text-white" disabled="" type="number"/>
+<input class="bg-surface-container dark:bg-white/5 rounded-lg border-none text-center p-1 text-on-surface dark:text-white" disabled="" type="number"/>
+<input class="bg-surface-container dark:bg-white/5 rounded-lg border-none text-center p-1 text-on-surface dark:text-white" disabled="" type="number"/>
+<input class="bg-surface-container dark:bg-white/5 rounded-lg border-none text-center p-1 text-on-surface dark:text-white" disabled="" type="number"/>
+<div class="text-body-md font-bold dark:text-white">Strikers</div>
+<input class="bg-surface-container dark:bg-white/5 rounded-lg border-none text-center p-1 text-on-surface dark:text-white" disabled="" type="number"/>
+<input class="bg-surface-container dark:bg-white/5 rounded-lg border-none text-center p-1 text-on-surface dark:text-white" disabled="" type="number"/>
+<input class="bg-surface-container dark:bg-white/5 rounded-lg border-none text-center p-1 text-on-surface dark:text-white" disabled="" type="number"/>
+<input class="bg-surface-container dark:bg-white/5 rounded-lg border-none text-center p-1 text-on-surface dark:text-white" disabled="" type="number"/>
+</div>
+<p class="text-label-sm text-outline dark:text-outline-variant italic">Select Basketball or Volleyball to edit these values.</p>
+</div>
+</div>
+<!-- Sidebar Info -->
+<div class="lg:col-span-4 space-y-md">
+<div class="bg-primary dark:bg-primary-fixed-dim text-on-primary dark:text-on-primary-fixed rounded-xl p-md shadow-lg space-y-sm">
+<h3 class="font-headline-md text-headline-md">Referee Validation</h3>
+<p class="text-on-primary-container dark:text-on-primary-fixed opacity-90 text-body-md">By saving this result, you confirm that the scores entered align with the official game sheet.</p>
+<div class="flex items-center gap-base p-sm bg-primary-container dark:bg-[#121212]/30 rounded-lg">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<div>
+<p class="font-label-bold text-label-bold">Official: Sarah Collins</p>
+<p class="text-label-sm">Summer Cup Grade A Official</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest dark:bg-[#1A1A1A] rounded-xl shadow-sm p-md">
+<h4 class="font-label-bold text-label-bold text-outline dark:text-outline-variant uppercase mb-sm">Match Notes</h4>
+<textarea class="w-full bg-surface-container-low dark:bg-white/5 border-none rounded-lg p-sm text-body-md min-h-[120px] focus:ring-2 focus:ring-primary dark:focus:ring-primary-fixed-dim dark:text-white" placeholder="Enter any incidents, injuries, or comments..."></textarea>
+</div>
+</div>
+</div>
+<!-- Action Bar -->
+<div class="fixed bottom-0 left-0 w-full bg-surface dark:bg-[#121212] border-t border-outline-variant/20 p-md md:p-lg flex justify-end gap-md shadow-lg z-40">
+<button class="px-xl py-3 border-2 border-primary dark:border-primary-fixed-dim text-primary dark:text-primary-fixed-dim font-headline-md text-headline-md rounded-xl hover:bg-surface-container dark:hover:bg-white/5 transition-colors active:scale-95">
+                Cancel
+            </button>
+<button class="px-xl py-3 bg-primary dark:bg-primary-fixed-dim text-on-primary dark:text-on-primary-fixed font-headline-md text-headline-md rounded-xl shadow-lg hover:shadow-xl transition-all active:scale-95">
+                Save Result
+            </button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-lowest dark:bg-[#121212] border-t border-white/5 shadow-lg z-50 flex justify-around items-center px-4 pb-2 h-20 rounded-t-xl">
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-2 hover:bg-surface-container-high dark:hover:bg-white/5 transition-all active:scale-90">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-bold text-label-bold">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-2 hover:bg-surface-container-high dark:hover:bg-white/5 transition-all active:scale-90">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-bold text-label-bold">Teams</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container dark:bg-primary-fixed-dim text-on-secondary-container dark:text-on-primary-fixed rounded-full px-4 py-1 mt-1 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="scoreboard">scoreboard</span>
+<span class="font-label-bold text-label-bold">Results</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-2 hover:bg-surface-container-high dark:hover:bg-white/5 transition-all active:scale-90">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="font-label-bold text-label-bold">Stats</span>
+</div>
+</nav>
+</body></html>

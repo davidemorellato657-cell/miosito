@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dashboard - Summer Sports Cup</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SummerCup">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#131313">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'surface': '#131313',
+                        'primary': '#ffffff',
+                        'acid-lime': '#c5f400',
+                        'moss-green': '#688012',
+                        'onyx': '#131313',
+                    },
+                    fontFamily: {
+                        'montserrat': ['Montserrat', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #131313; color: #e2e2e2; }
+        .bento-card {
+            background-color: #1f1f1f;
+            border: 1px solid #353535;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .bento-card:hover { border-color: #CDFD00; }
+        .nav-item { transition: all 0.2s ease; }
+        .nav-item:hover { color: #CDFD00; }
+        .active-nav { color: #CDFD00; border-bottom: 2px solid #CDFD00; }
+    </style>
+</head>
+<body class="pb-24 lg:pb-0">
+    <!-- Desktop Sidebar -->
+    <nav class="hidden lg:flex fixed left-0 top-0 h-full w-20 flex-col items-center py-8 bg-[#1f1f1f] border-r border-[#353535] z-50">
+        <div class="mb-12">
+            <span class="material-symbols-outlined text-acid-lime text-4xl">sports_score</span>
+        </div>
+        <div class="flex flex-col space-y-8 flex-1">
+            <a href="dashboard.html" class="nav-item active-nav"><span class="material-symbols-outlined">dashboard</span></a>
+            <a href="team_management.html" class="nav-item"><span class="material-symbols-outlined">groups</span></a>
+            <a href="match_entry.html" class="nav-item" data-role="organizer"><span class="material-symbols-outlined">edit_square</span></a>
+            <a href="capocannonieri.html" class="nav-item"><span class="material-symbols-outlined">military_tech</span></a>
+        </div>
+        <button onclick="App.confirmLogout()" class="nav-item"><span class="material-symbols-outlined">logout</span></button>
+    </nav>
+
+    <!-- Mobile Top Bar -->
+    <header class="lg:hidden flex justify-between items-center p-4 bg-[#1f1f1f] border-b border-[#353535]">
+        <h1 class="font-montserrat font-bold text-acid-lime uppercase italic tracking-tighter">Summer Sports Cup</h1>
+        <button onclick="App.confirmLogout()"><span class="material-symbols-outlined">logout</span></button>
+    </header>
+
+    <main class="lg:ml-20 p-6 max-w-7xl mx-auto">
+        <header class="mb-10">
+            <div class="flex justify-between items-end mb-4">
+                <div>
+                    <h2 class="text-gray-400 font-inter uppercase text-xs tracking-widest mb-1">Benvenuto</h2>
+                    <h1 class="text-4xl font-montserrat font-bold uppercase italic leading-none" id="user-greeting">ATLETA</h1>
+                </div>
+                <div data-role="organizer">
+                    <button onclick="showNewTournamentModal()" class="bg-acid-lime text-onyx px-6 py-3 rounded-full font-montserrat font-bold uppercase text-sm tracking-wide hover:bg-white transition-all">
+                        Nuovo Torneo
+                    </button>
+                </div>
+                <div data-role="player">
+                    <button onclick="showSearchModal()" class="bg-[#1f1f1f] border border-acid-lime text-acid-lime px-6 py-3 rounded-full font-montserrat font-bold uppercase text-sm tracking-wide hover:bg-acid-lime hover:text-onyx transition-all">
+                        Cerca Torneo
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Bento Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Active Tournaments -->
+            <div class="bento-card col-span-1 md:col-span-2">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-montserrat font-bold uppercase italic text-xl">Tornei Attivi</h3>
+                    <span class="text-xs font-inter bg-[#2a2a2a] px-3 py-1 rounded-full text-acid-lime">LIVE</span>
+                </div>
+                <div id="tournament-list" class="space-y-4">
+                    <!-- Placeholder/Empty state -->
+                    <div class="text-center py-12 text-gray-500">
+                        <span class="material-symbols-outlined text-5xl mb-2">event_busy</span>
+                        <p class="font-inter">Nessun torneo attivo al momento.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Snippet -->
+            <div class="bento-card">
+                <h3 class="font-montserrat font-bold uppercase italic text-xl mb-6">Statistiche</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center p-4 bg-[#2a2a2a] rounded-xl border-l-4 border-acid-lime">
+                        <span class="font-inter text-sm text-gray-300">Totale Squadre</span>
+                        <span id="total-teams" class="font-montserrat font-bold text-2xl">0</span>
+                    </div>
+                    <div class="flex justify-between items-center p-4 bg-[#2a2a2a] rounded-xl border-l-4 border-moss-green">
+                        <span class="font-inter text-sm text-gray-300">Partite Giocate</span>
+                        <span id="total-matches" class="font-montserrat font-bold text-2xl">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Results -->
+            <div class="bento-card col-span-1 md:col-span-2 lg:col-span-2">
+                <h3 class="font-montserrat font-bold uppercase italic text-xl mb-6">Ultimi Risultati</h3>
+                <div id="recent-results" class="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-y-auto max-h-[400px] pr-2">
+                    <div class="col-span-full text-center py-8 text-gray-500">
+                        <p class="font-inter text-sm">Ancora nessuna partita registrata.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Performance Chart (Player only) -->
+            <div class="bento-card col-span-1 md:col-span-2" data-role="player">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-montserrat font-bold uppercase italic text-xl">Andamento Squadra</h3>
+                    <div id="team-selector-container" class="hidden">
+                        <select id="performance-team-select" onchange="Page.updateChart(this.value)" class="bg-[#2a2a2a] border border-[#353535] rounded-lg px-3 py-1 text-xs text-acid-lime font-inter outline-none">
+                            <!-- Dynamic -->
+                        </select>
+                    </div>
+                </div>
+                <div class="h-64 relative">
+                    <canvas id="performance-chart"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Mobile Nav -->
+    <nav class="lg:hidden fixed bottom-0 left-0 w-full bg-[#1f1f1f] border-t border-[#353535] flex justify-around items-center py-4 z-50">
+        <a href="dashboard.html" class="nav-item active-nav"><span class="material-symbols-outlined">dashboard</span></a>
+        <a href="team_management.html" class="nav-item"><span class="material-symbols-outlined">groups</span></a>
+        <a href="match_entry.html" class="nav-item" data-role="organizer"><span class="material-symbols-outlined">edit_square</span></a>
+        <a href="capocannonieri.html" class="nav-item"><span class="material-symbols-outlined">military_tech</span></a>
+    </nav>
+
+    <!-- Modal for New Tournament (Simple for now) -->
+    <div id="new-tournament-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 hidden z-[100]">
+        <div class="bg-[#1f1f1f] rounded-3xl p-8 max-w-md w-full border border-acid-lime">
+            <h2 class="font-montserrat font-bold text-2xl uppercase italic mb-6">Nuovo Torneo</h2>
+            <div class="space-y-4">
+                <input type="text" id="t-name" placeholder="Nome Torneo" class="w-full bg-[#2a2a2a] border border-[#353535] rounded-xl px-4 py-3 text-white">
+                <select id="t-sport" class="w-full bg-[#2a2a2a] border border-[#353535] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-acid-lime">
+                    <option value="calcio">Calcio</option>
+                    <option value="calcetto">Calcetto (5vs5)</option>
+                    <option value="basket">Basket</option>
+                    <option value="pallavolo">Pallavolo</option>
+                    <option value="green_volley">Green Volley</option>
+                    <option value="beach_volleyball">Beach Volleyball</option>
+                </select>
+                <div class="space-y-2">
+                    <label class="block text-[10px] text-gray-500 uppercase tracking-widest px-1">Password d'Accesso (Opzionale)</label>
+                    <div class="relative">
+                        <input type="password" id="t-password" placeholder="Lascia vuoto per accesso libero" class="w-full bg-[#2a2a2a] border border-[#353535] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-acid-lime pr-12">
+                        <button onclick="toggleTournamentPassword()" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-acid-lime">
+                            <span id="pw-icon" class="material-symbols-outlined text-xl">visibility</span>
+                        </button>
+                    </div>
+                </div>
+                <button onclick="createTournament()" class="w-full bg-acid-lime text-onyx py-4 rounded-xl font-montserrat font-bold uppercase tracking-wider hover:bg-white transition-all">Crea Ora</button>
+                <button onclick="hideModal('new-tournament-modal')" class="w-full text-gray-500 font-inter text-sm uppercase">Annulla</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Tournament Search (Players) -->
+    <div id="search-tournament-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 hidden z-[100]">
+        <div class="bg-[#1f1f1f] rounded-3xl p-8 max-w-md w-full border border-acid-lime">
+            <h2 class="font-montserrat font-bold text-2xl uppercase italic mb-6">Cerca Torneo</h2>
+            <div class="space-y-4">
+                <div class="space-y-2">
+                    <label class="block text-[10px] text-gray-500 uppercase tracking-widest px-1">Nome del Torneo</label>
+                    <input type="text" id="search-t-name" placeholder="Inserisci il nome esatto" class="w-full bg-[#2a2a2a] border border-[#353535] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-acid-lime">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-[10px] text-gray-500 uppercase tracking-widest px-1">Password (se richiesta)</label>
+                    <input type="password" id="search-t-password" placeholder="Password torneo" class="w-full bg-[#2a2a2a] border border-[#353535] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-acid-lime">
+                </div>
+                <button onclick="performSearch()" class="w-full bg-acid-lime text-onyx py-4 rounded-xl font-montserrat font-bold uppercase tracking-wider hover:bg-white transition-all">Accedi</button>
+                <button onclick="hideModal('search-tournament-modal')" class="w-full text-gray-500 font-inter text-sm uppercase">Annulla</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/store.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 hidden z-[200]">
+        <div class="bg-[#1f1f1f] rounded-3xl p-8 max-w-sm w-full border border-red-500">
+            <h2 class="font-montserrat font-bold text-2xl uppercase italic mb-4 text-red-500 text-center">Logout</h2>
+            <p class="text-gray-300 font-inter mb-8 text-center text-sm">Sei sicuro di voler uscire dal tuo account?</p>
+            <div class="flex flex-col gap-3">
+                <button onclick="App.logout()"
+                    class="w-full bg-red-500 text-white py-4 rounded-xl font-montserrat font-bold uppercase tracking-wider hover:bg-red-600 transition-all">Esci</button>
+                <button onclick="App.hideModal('logout-modal')"
+                    class="w-full text-gray-500 font-inter text-sm uppercase">Annulla</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const Page = {
+            init: () => {
+                const user = Store.getCurrentUser();
+                document.getElementById('user-greeting').innerText = user.name.toUpperCase();
+                Page.render();
+            },
+            render: () => {
+                const ts = Store.getTournaments();
+                const tList = document.getElementById('tournament-list');
+                const tMatches = Store.getMatches();
+                const tTeams = Store.getTeams();
+
+                document.getElementById('total-teams').innerText = tTeams.length;
+                document.getElementById('total-matches').innerText = tMatches.length;
+
+                if (ts.length > 0) {
+                    const user = Store.getCurrentUser();
+                    tList.innerHTML = ts.map(t => {
+                        const isUnlocked = Store.isTournamentUnlocked(t.id);
+                        return `
+                        <div onclick="enterTournament(${t.id})" class="p-4 bg-[#2a2a2a] rounded-2xl flex justify-between items-center border border-transparent hover:border-acid-lime transition-all cursor-pointer group">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-montserrat font-bold text-white uppercase">${t.name}</h4>
+                                    ${t.password && !isUnlocked ? '<span class="material-symbols-outlined text-xs text-gray-500">lock</span>' : ''}
+                                </div>
+                                <p class="text-xs text-gray-400 font-inter uppercase tracking-widest">${t.sport}</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                ${user.role === 'organizer' ? `
+                                    <button onclick="event.stopPropagation(); window.location.href='team_management.html?tId=${t.id}&action=new'" class="bg-acid-lime/10 text-acid-lime px-3 py-1 rounded-full text-[10px] font-bold uppercase hover:bg-acid-lime hover:text-onyx transition-all">Aggiungi Squadra</button>
+                                    <button onclick="event.stopPropagation(); confirmDeleteTournament(${t.id}, '${t.name}')" class="text-red-500/50 hover:text-red-500 transition-colors"><span class="material-symbols-outlined">delete</span></button>
+                                ` : ''}
+                                <span class="material-symbols-outlined text-gray-500 group-hover:text-acid-lime transition-colors">chevron_right</span>
+                            </div>
+                        </div>
+                    `}).join('');
+                } else {
+                    tList.innerHTML = `
+                        <div class="text-center py-12 bg-[#1f1f1f] rounded-2xl border-2 border-dashed border-[#353535]">
+                            <span class="material-symbols-outlined text-4xl text-gray-600 mb-2">sports_score</span>
+                            <p class="text-gray-500 font-inter text-sm">Nessun torneo attivo al momento.</p>
+                            ${Store.getCurrentUser().role === 'organizer' ? '<p class="text-acid-lime text-xs mt-2 uppercase font-bold cursor-pointer" onclick="showNewTournamentModal()">Creane uno ora</p>' : ''}
+                        </div>
+                    `;
+                }
+
+                // Render Recent Results (Grouped by Tournament)
+                const recentMatches = Store.load('ssm_matches')
+                    .sort((a, b) => new Date(b.date) - new Date(a.date))
+                    .slice(0, 15);
+                
+                const resultsContainer = document.getElementById('recent-results');
+                if (recentMatches.length > 0) {
+                    const tournaments = Store.getTournaments();
+                    const grouped = recentMatches.reduce((acc, m) => {
+                        if (!acc[m.tournamentId]) acc[m.tournamentId] = [];
+                        acc[m.tournamentId].push(m);
+                        return acc;
+                    }, {});
+
+                    resultsContainer.innerHTML = Object.entries(grouped).map(([tId, matches]) => {
+                        const tournament = tournaments.find(t => t.id === parseInt(tId));
+                        return `
+                            <div class="space-y-3">
+                                <h4 class="text-[10px] text-acid-lime font-montserrat font-bold uppercase tracking-widest border-b border-[#353535] pb-1">${tournament ? tournament.name : 'Torneo'}</h4>
+                                <div class="space-y-2">
+                                    ${matches.map(m => `
+                                        <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-xl border border-[#353535]">
+                                            <div class="flex-1 text-right pr-2">
+                                                <p class="text-[10px] text-white font-montserrat font-bold uppercase truncate">${m.teamAName}</p>
+                                            </div>
+                                            <div class="bg-[#2a2a2a] px-3 py-1 rounded-lg flex gap-2 items-center min-w-[70px] justify-center">
+                                                <span class="text-xs font-montserrat font-bold ${m.scoreA > m.scoreB ? 'text-acid-lime' : 'text-white'}">${m.scoreA}</span>
+                                                <span class="text-[10px] text-gray-600 font-bold">-</span>
+                                                <span class="text-xs font-montserrat font-bold ${m.scoreB > m.scoreA ? 'text-acid-lime' : 'text-white'}">${m.scoreB}</span>
+                                            </div>
+                                            <div class="flex-1 text-left pl-2">
+                                                <p class="text-[10px] text-white font-montserrat font-bold uppercase truncate">${m.teamBName}</p>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    resultsContainer.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500"><p class="font-inter text-sm">Ancora nessuna partita registrata.</p></div>';
+                }
+
+                // Render Performance Chart for Players
+                const user = Store.getCurrentUser();
+                if (user.role === 'player') {
+                    Page.initPerformanceChart(user);
+                }
+            },
+
+            initPerformanceChart: (user) => {
+                const allTeams = Store.load('ssm_teams');
+                const playerTeams = allTeams.filter(t => 
+                    t.owner === user.username || 
+                    (t.players && t.players.some(p => p.name === user.name))
+                );
+
+                if (playerTeams.length === 0) {
+                    const ctx = document.getElementById('performance-chart');
+                    if (ctx) ctx.parentElement.innerHTML = '<div class="flex items-center justify-center h-full text-gray-500 text-sm">Non appartieni ancora a nessuna squadra.</div>';
+                    return;
+                }
+
+                if (playerTeams.length > 1) {
+                    const container = document.getElementById('team-selector-container');
+                    container.classList.remove('hidden');
+                    const select = document.getElementById('performance-team-select');
+                    select.innerHTML = playerTeams.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+                }
+
+                Page.updateChart(playerTeams[0].id);
+            },
+
+            performanceChartInstance: null,
+            updateChart: (teamId) => {
+                const history = Store.getTeamPerformance(parseInt(teamId));
+                const ctx = document.getElementById('performance-chart').getContext('2d');
+
+                if (Page.performanceChartInstance) {
+                    Page.performanceChartInstance.destroy();
+                }
+
+                if (history.length === 0) {
+                    // Show message if no matches
+                    ctx.font = '12px Inter';
+                    ctx.fillStyle = '#666';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('Nessuna partita giocata per questa squadra.', ctx.canvas.width/2, ctx.canvas.height/2);
+                    return;
+                }
+
+                const labels = history.map(h => `P${h.matchIndex}`);
+                const data = history.map(h => h.points);
+
+                Page.performanceChartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Punti Totali',
+                            data: data,
+                            borderColor: '#c5f400',
+                            backgroundColor: 'rgba(197, 244, 0, 0.1)',
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: '#c5f400',
+                            pointBorderColor: '#131313',
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                backgroundColor: '#1f1f1f',
+                                titleFont: { family: 'Montserrat' },
+                                bodyFont: { family: 'Inter' },
+                                borderColor: '#353535',
+                                borderWidth: 1
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: '#353535' },
+                                ticks: { color: '#888', font: { family: 'Inter' }, stepSize: 3 }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: '#888', font: { family: 'Inter' } }
+                            }
+                        }
+                    }
+                });
+            }
+        };
+
+        function showNewTournamentModal() { document.getElementById('new-tournament-modal').classList.remove('hidden'); }
+        function hideNewTournamentModal() { document.getElementById('new-tournament-modal').classList.add('hidden'); }
+
+        function showSearchModal() { document.getElementById('search-tournament-modal').classList.remove('hidden'); }
+        function hideSearchModal() { document.getElementById('search-tournament-modal').classList.add('hidden'); }
+
+        function hideModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function performSearch() {
+            const name = document.getElementById('search-t-name').value;
+            const password = document.getElementById('search-t-password').value;
+            if (!name) return;
+
+            const ts = Store.getTournaments();
+            const t = ts.find(t => t.name.toLowerCase() === name.toLowerCase());
+
+            if (!t) {
+                alert("Torneo non trovato. Verifica il nome.");
+                return;
+            }
+
+            const res = Store.unlockTournament(t.id, password);
+            if (res.success) {
+                alert(`Accesso al torneo "${t.name}" autorizzato!`);
+                hideSearchModal();
+                Page.render();
+            } else {
+                alert(res.msg);
+            }
+        }
+
+        function toggleTournamentPassword() {
+            const input = document.getElementById('t-password');
+            const icon = document.getElementById('pw-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.innerText = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.innerText = 'visibility';
+            }
+        }
+
+        function confirmDeleteTournament(id, name) {
+            if (confirm(`Sei sicuro di voler eliminare il torneo "${name}"? Verranno eliminate anche tutte le squadre e le partite associate.`)) {
+                Store.deleteTournament(id);
+                Page.render();
+            }
+        }
+
+        function createTournament() {
+            const name = document.getElementById('t-name').value;
+            const sport = document.getElementById('t-sport').value;
+            const password = document.getElementById('t-password').value;
+            if (!name) return;
+            Store.addTournament({ name, sport, password });
+            hideNewTournamentModal();
+            Page.render();
+        }
+
+        function enterTournament(id) {
+            const t = Store.getTournaments().find(t => t.id === id);
+            if (Store.isTournamentUnlocked(id)) {
+                // Redirect or open management
+                window.location.href = `team_management.html?tId=${id}`;
+            } else {
+                const pw = prompt(`Il torneo "${t.name}" è protetto. Inserisci la password per accedere:`);
+                if (pw === null) return;
+                const res = Store.unlockTournament(id, pw);
+                if (res.success) {
+                    window.location.href = `team_management.html?tId=${id}`;
+                } else {
+                    alert(res.msg);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

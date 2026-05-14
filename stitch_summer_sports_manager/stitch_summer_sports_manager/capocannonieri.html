@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Classifiche - Summer Sports Cup</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SummerCup">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#131313">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'surface': '#131313',
+                        'primary': '#ffffff',
+                        'acid-lime': '#c5f400',
+                        'moss-green': '#688012',
+                        'onyx': '#131313',
+                    },
+                    fontFamily: {
+                        'montserrat': ['Montserrat', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #131313; color: #e2e2e2; }
+        .stats-card {
+            background-color: #1f1f1f;
+            border: 1px solid #353535;
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+        .podium-card {
+            background: linear-gradient(180deg, rgba(205, 253, 0, 0.1) 0%, rgba(104, 128, 18, 0.05) 100%);
+            border: 1px solid #353535;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .podium-card:hover { border-color: #CDFD00; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
+        tr { background-color: #1f1f1f; }
+        td, th { padding: 1rem; }
+        th { text-align: left; font-family: 'Inter', sans-serif; text-transform: uppercase; font-size: 0.75rem; color: #666; letter-spacing: 0.1em; }
+        .nav-item { transition: all 0.2s ease; }
+        .nav-item:hover { color: #CDFD00; }
+        .active-nav { color: #CDFD00; border-bottom: 2px solid #CDFD00; }
+    </style>
+</head>
+<body class="pb-24 lg:pb-0">
+    <!-- Desktop Sidebar -->
+    <nav class="hidden lg:flex fixed left-0 top-0 h-full w-20 flex-col items-center py-8 bg-[#1f1f1f] border-r border-[#353535] z-50">
+        <div class="mb-12">
+            <span class="material-symbols-outlined text-acid-lime text-4xl">sports_score</span>
+        </div>
+        <div class="flex flex-col space-y-8 flex-1">
+            <a href="dashboard.html" class="nav-item"><span class="material-symbols-outlined">dashboard</span></a>
+            <a href="team_management.html" class="nav-item"><span class="material-symbols-outlined">groups</span></a>
+            <a href="match_entry.html" class="nav-item" data-role="organizer"><span class="material-symbols-outlined">edit_square</span></a>
+            <a href="capocannonieri.html" class="nav-item active-nav"><span class="material-symbols-outlined">military_tech</span></a>
+        </div>
+        <button onclick="App.confirmLogout()" class="nav-item"><span class="material-symbols-outlined">logout</span></button>
+    </nav>
+
+    <main class="lg:ml-20 p-6 max-w-7xl mx-auto">
+        <header class="mb-10">
+            <h2 class="text-gray-400 font-inter uppercase text-xs tracking-widest mb-1">League Stats</h2>
+            <h1 class="text-4xl font-montserrat font-bold uppercase italic leading-none">Classifiche</h1>
+        </header>
+
+        <!-- Tournament Selector -->
+        <div class="mb-8">
+            <select id="s-tournament" onchange="Page.render()" class="bg-[#1f1f1f] border border-[#353535] rounded-xl px-6 py-3 text-acid-lime font-montserrat font-bold uppercase text-sm tracking-wide focus:outline-none">
+                <!-- Dynamic -->
+            </select>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Standings Table -->
+            <div id="standings-container" class="lg:col-span-2">
+                <h3 class="font-montserrat font-bold uppercase italic text-xl mb-6">Classifica Squadre</h3>
+                <div class="overflow-x-auto">
+                    <table>
+                        <thead id="standings-head">
+                            <tr>
+                                <th>Pos</th>
+                                <th>Squadra</th>
+                                <th>G</th>
+                                <th>V</th>
+                                <th>P</th>
+                                <th>S</th>
+                                <th class="text-acid-lime">PT</th>
+                            </tr>
+                        </thead>
+                        <tbody id="standings-body">
+                            <!-- Dynamic -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Top Scorers Podium -->
+            <div id="scorers-section">
+                <h3 class="font-montserrat font-bold uppercase italic text-xl mb-6">Top 3 Marcatori</h3>
+                <div id="podium-list" class="space-y-4">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Nav -->
+    <nav class="lg:hidden fixed bottom-0 left-0 w-full bg-[#1f1f1f] border-t border-[#353535] flex justify-around items-center py-4 z-50">
+        <a href="dashboard.html" class="nav-item"><span class="material-symbols-outlined">dashboard</span></a>
+        <a href="team_management.html" class="nav-item"><span class="material-symbols-outlined">groups</span></a>
+        <a href="match_entry.html" class="nav-item" data-role="organizer"><span class="material-symbols-outlined">edit_square</span></a>
+        <a href="capocannonieri.html" class="nav-item active-nav"><span class="material-symbols-outlined">military_tech</span></a>
+    </nav>
+
+    <script src="js/store.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 hidden z-[200]">
+        <div class="bg-[#1f1f1f] rounded-3xl p-8 max-w-sm w-full border border-red-500">
+            <h2 class="font-montserrat font-bold text-2xl uppercase italic mb-4 text-red-500 text-center">Logout</h2>
+            <p class="text-gray-300 font-inter mb-8 text-center text-sm">Sei sicuro di voler uscire dal tuo account?</p>
+            <div class="flex flex-col gap-3">
+                <button onclick="App.logout()"
+                    class="w-full bg-red-500 text-white py-4 rounded-xl font-montserrat font-bold uppercase tracking-wider hover:bg-red-600 transition-all">Esci</button>
+                <button onclick="App.hideModal('logout-modal')"
+                    class="w-full text-gray-500 font-inter text-sm uppercase">Annulla</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const Page = {
+            init: () => {
+                const ts = Store.getTournaments();
+                const select = document.getElementById('s-tournament');
+                if (ts.length === 0) {
+                    select.innerHTML = '<option value="">Nessun torneo</option>';
+                    document.getElementById('standings-container').innerHTML = `
+                        <div class="col-span-full text-center py-20 bg-[#1f1f1f] rounded-3xl border border-[#353535]">
+                            <p class="text-gray-500 font-inter">Crea un torneo dalla dashboard per vedere le classifiche.</p>
+                        </div>
+                    `;
+                    document.getElementById('scorers-section').classList.add('hidden');
+                    return;
+                }
+                select.innerHTML = ts.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+                Page.render();
+            },
+            render: () => {
+                const tId = parseInt(document.getElementById('s-tournament').value);
+                if (!tId) return;
+
+                const tournament = Store.getTournaments().find(t => t.id === tId);
+                const isSoccer = ['calcio', 'calcetto'].includes(tournament?.sport);
+                
+                const standingsContainer = document.getElementById('standings-container');
+                const scorersSection = document.getElementById('scorers-section');
+
+                if (isSoccer) {
+                    standingsContainer.classList.add('lg:col-span-2');
+                    scorersSection.classList.remove('hidden');
+                } else {
+                    standingsContainer.classList.remove('lg:col-span-2');
+                    scorersSection.classList.add('hidden');
+                }
+
+                // Standings
+                const standings = Store.calculateStandings(tId);
+                const noDrawSports = ['pallavolo', 'green_volley', 'basket', 'beach_volleyball'];
+                const hasDraws = !noDrawSports.includes(tournament?.sport);
+
+                const head = document.getElementById('standings-head');
+                head.innerHTML = `
+                    <tr>
+                        <th>Pos</th>
+                        <th>Squadra</th>
+                        <th>G</th>
+                        <th>V</th>
+                        ${hasDraws ? '<th>P</th>' : ''}
+                        <th>S</th>
+                        <th class="text-acid-lime">PT</th>
+                    </tr>
+                `;
+
+                const body = document.getElementById('standings-body');
+                body.innerHTML = standings.map((t, i) => `
+                    <tr class="rounded-xl overflow-hidden">
+                        <td class="font-montserrat font-bold text-gray-500">${i + 1}</td>
+                        <td class="font-montserrat font-bold text-white uppercase">${t.name}</td>
+                        <td class="font-inter text-gray-400">${t.played}</td>
+                        <td class="font-inter text-gray-400">${t.won}</td>
+                        ${hasDraws ? `<td class="font-inter text-gray-400">${t.drawn}</td>` : ''}
+                        <td class="font-inter text-gray-400">${t.lost}</td>
+                        <td class="font-montserrat font-bold text-acid-lime text-lg">${t.points}</td>
+                    </tr>
+                `).join('');
+
+                // Top Scorers
+                if (isSoccer) {
+                    const topScorers = Store.getTopScorers(tId);
+                    const podium = document.getElementById('podium-list');
+                    if (topScorers.length > 0) {
+                        podium.innerHTML = topScorers.map((s, i) => `
+                            <div class="podium-card flex items-center justify-between">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-2xl font-montserrat font-black italic text-onyx/20" style="-webkit-text-stroke: 1px #353535;">${i + 1}</span>
+                                    <div class="text-left">
+                                        <p class="font-montserrat font-bold text-white uppercase leading-none">${s.name}</p>
+                                        <p class="text-[10px] text-gray-500 font-inter uppercase tracking-widest">${s.teamName}</p>
+                                    </div>
+                                </div>
+                                <span class="text-2xl font-montserrat font-bold text-acid-lime">${s.goals}</span>
+                            </div>
+                        `).join('');
+                    } else {
+                        podium.innerHTML = '<p class="text-center text-gray-500 py-8 font-inter">Nessun dato disponibile.</p>';
+                    }
+                }
+            }
+        };
+    </script>
+</body>
+</html>

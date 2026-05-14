@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Summer Cup - Standings &amp; Stats</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=Montserrat:ital,wght@0,600;0,700;0,800;1,800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-primary": "#ffffff", "on-tertiary-container": "#6a6a6a", "on-secondary": "#ffffff", "on-tertiary-fixed": "#1b1b1b", "surface-dim": "#d9dcc6", "on-error": "#ffffff", "primary-fixed": "#c5f400", background: "#f9fbe5", "secondary-fixed-dim": "#b6d25f", "on-tertiary": "#ffffff", "surface-container-low": "#f3f5df", "surface-variant": "#e2e4cf", "surface-container-lowest": "#ffffff", outline: "#747a60", "tertiary-fixed": "#e2e2e2", "on-secondary-fixed": "#161e00", "primary-container": "#cdfd00", "on-secondary-fixed-variant": "#3c4d00", "inverse-surface": "#2f3223", surface: "#f9fbe5", "error-container": "#ffdad6", "surface-container-highest": "#e2e4cf", "on-primary-fixed-variant": "#3c4d00", "inverse-on-surface": "#f0f3dd", "secondary-fixed": "#d1ee77", "surface-container": "#eef0da", "on-primary-fixed": "#161e00", "outline-variant": "#c4c9ac", error: "#ba1a1a", "on-error-container": "#93000a", "primary-fixed-dim": "#add500", "on-background": "#1a1d10", primary: "#516600", "surface-bright": "#f9fbe5", "surface-tint": "#516600", "on-surface": "#1a1d10", "secondary-container": "#d1ee77", "inverse-primary": "#add500", "on-primary-container": "#5b7200", secondary: "#516600", "tertiary-fixed-dim": "#c6c6c6", "tertiary-container": "#ebebeb", tertiary: "#5e5e5e", "surface-container-high": "#e8ead4", "on-surface-variant": "#444933", "on-secondary-container": "#566c00", "on-tertiary-fixed-variant": "#474747"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {xs: "4px", base: "8px", sm: "12px", "margin-desktop": "32px", gutter: "16px", md: "24px", lg: "40px", xl: "64px", "margin-mobile": "16px"}, fontFamily: {"body-md": ["Inter"], "headline-md": ["Montserrat"], "label-bold": ["Inter"], "body-lg": ["Inter"], "label-sm": ["Inter"], "headline-lg-mobile": ["Montserrat"], "display-lg": ["Montserrat"], "headline-lg": ["Montserrat"], headline: ["Montserrat"], display: ["Montserrat"], body: ["Inter"], label: ["Inter"]}, fontSize: {"body-md": ["16px", {lineHeight: "1.5", fontWeight: "400"}], "headline-md": ["24px", {lineHeight: "1.3", fontWeight: "600"}], "label-bold": ["14px", {lineHeight: "1.2", letterSpacing: "0.05em", fontWeight: "700"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}], "label-sm": ["12px", {lineHeight: "1.2", fontWeight: "500"}], "headline-lg-mobile": ["28px", {lineHeight: "1.2", fontWeight: "700"}], "display-lg": ["48px", {lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "800"}], "headline-lg": ["32px", {lineHeight: "1.2", fontWeight: "700"}]}}}};</script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scrolling-touch {
+            -webkit-overflow-scrolling: touch;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-on-background shadow-[0px_4px_20px_rgba(0,123,255,0.08)] shadow-sm docked full-width top-0 z-50 sticky">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="sports_score">sports_score</span>
+<h1 class="text-headline-md font-headline-md font-extrabold text-primary dark:text-primary-fixed-dim uppercase italic tracking-tighter">SUMMER CUP</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:bg-surface-container dark:hover:bg-surface-container-highest transition-colors p-2 rounded-full active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="search">search</span>
+</button>
+<button class="hover:bg-surface-container dark:hover:bg-surface-container-highest transition-colors p-2 rounded-full active:scale-95 transition-transform relative">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop mt-base md:mt-md">
+<!-- Sport Selector Tabs -->
+<div class="flex overflow-x-auto scrolling-touch gap-2 pb-4 mb-md no-scrollbar">
+<button class="bg-primary text-on-primary flex items-center gap-2 px-6 py-3 rounded-full font-label-bold text-label-bold transition-all shadow-md">
+<span class="material-symbols-outlined" data-icon="sports_soccer" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+                Soccer
+            </button>
+<button class="bg-surface-container-high text-on-surface-variant flex items-center gap-2 px-6 py-3 rounded-full font-label-bold text-label-bold hover:bg-surface-container-highest transition-all">
+<span class="material-symbols-outlined" data-icon="sports_basketball">sports_basketball</span>
+                Basketball
+            </button>
+<button class="bg-surface-container-high text-on-surface-variant flex items-center gap-2 px-6 py-3 rounded-full font-label-bold text-label-bold hover:bg-surface-container-highest transition-all">
+<span class="material-symbols-outlined" data-icon="sports_volleyball">sports_volleyball</span>
+                Volleyball
+            </button>
+<button class="bg-surface-container-high text-on-surface-variant flex items-center gap-2 px-6 py-3 rounded-full font-label-bold text-label-bold hover:bg-surface-container-highest transition-all">
+<span class="material-symbols-outlined" data-icon="sports_tennis">sports_tennis</span>
+                Padel
+            </button>
+</div>
+<!-- Main Content Bento Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter lg:gap-md">
+<!-- Standings Table Container -->
+<section class="lg:col-span-8 bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(0,123,255,0.08)] overflow-hidden">
+<div class="p-6 border-b border-surface-variant flex justify-between items-center">
+<h2 class="font-headline-md text-headline-md text-on-surface">League Standings</h2>
+<span class="text-label-sm font-label-sm text-on-surface-variant bg-surface-container-high px-3 py-1 rounded-full">Group A - Summer '24</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container text-on-surface-variant text-label-bold font-label-bold">
+<th class="py-4 px-6">Pos</th>
+<th class="py-4 px-6">Team</th>
+<th class="py-4 px-2 text-center">MP</th>
+<th class="py-4 px-2 text-center">W</th>
+<th class="py-4 px-2 text-center">D</th>
+<th class="py-4 px-2 text-center">L</th>
+<th class="py-4 px-2 text-center">GD</th>
+<th class="py-4 px-6 text-center text-primary">Pts</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant">
+<tr class="hover:bg-surface-container-low transition-colors border-l-4 border-l-secondary-container">
+<td class="py-4 px-6 font-bold text-primary">1</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="shield">shield</span>
+</div>
+<span class="font-bold">Lightning FC</span>
+</div>
+</td>
+<td class="py-4 px-2 text-center">8</td>
+<td class="py-4 px-2 text-center">6</td>
+<td class="py-4 px-2 text-center">2</td>
+<td class="py-4 px-2 text-center">0</td>
+<td class="py-4 px-2 text-center">+14</td>
+<td class="py-4 px-6 text-center font-extrabold text-primary">20</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors border-l-4 border-l-secondary-container">
+<td class="py-4 px-6 font-bold">2</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="shield">shield</span>
+</div>
+<span class="font-bold">Solar United</span>
+</div>
+</td>
+<td class="py-4 px-2 text-center">8</td>
+<td class="py-4 px-2 text-center">5</td>
+<td class="py-4 px-2 text-center">1</td>
+<td class="py-4 px-2 text-center">2</td>
+<td class="py-4 px-2 text-center">+8</td>
+<td class="py-4 px-6 text-center font-extrabold text-primary">16</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-4 px-6 font-bold">3</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary text-sm" data-icon="shield">shield</span>
+</div>
+<span class="font-bold">Beach Boys SC</span>
+</div>
+</td>
+<td class="py-4 px-2 text-center">8</td>
+<td class="py-4 px-2 text-center">4</td>
+<td class="py-4 px-2 text-center">3</td>
+<td class="py-4 px-2 text-center">1</td>
+<td class="py-4 px-2 text-center">+5</td>
+<td class="py-4 px-6 text-center font-extrabold text-primary">15</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-4 px-6 font-bold">4</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="shield">shield</span>
+</div>
+<span class="font-bold">Coastal Warriors</span>
+</div>
+</td>
+<td class="py-4 px-2 text-center">8</td>
+<td class="py-4 px-2 text-center">4</td>
+<td class="py-4 px-2 text-center">0</td>
+<td class="py-4 px-2 text-center">4</td>
+<td class="py-4 px-2 text-center">-2</td>
+<td class="py-4 px-6 text-center font-extrabold text-primary">12</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-4 px-6 font-bold">5</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="shield">shield</span>
+</div>
+<span class="font-bold">Dune Raiders</span>
+</div>
+</td>
+<td class="py-4 px-2 text-center">8</td>
+<td class="py-4 px-2 text-center">2</td>
+<td class="py-4 px-2 text-center">2</td>
+<td class="py-4 px-2 text-center">4</td>
+<td class="py-4 px-2 text-center">-6</td>
+<td class="py-4 px-6 text-center font-extrabold text-primary">8</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Top Scorers Sidebar -->
+<aside class="lg:col-span-4 flex flex-col gap-md">
+<section class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(0,123,255,0.08)] p-6">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-md text-headline-md flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-container" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+                            Capocannonieri
+                        </h3>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-3 bg-surface-container-low rounded-lg border-l-4 border-primary">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container bg-surface">
+<img alt="Athlete" class="w-full h-full object-cover" data-alt="A professional close-up headshot of a young male soccer player with determined eyes and a slight smile. The lighting is bright and high-key, typical of an outdoor sports event. He is wearing a vibrant blue and white team jersey. The background is softly blurred showing hints of a sun-lit stadium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMh9Ysf3ormiLpbTlhrwejkfiY-pRShUXz-OXS3AbPlvuAVt_QPuVtVYldtKt_jEa2B1fNLrFXwmPsycEafprArxTSd7YBeGj7QObtFMYJ7tza31hNcXLByrUFuva9bauyXxKaHQIUe7aq6WyQSUjomkjQR4VSXYW2LmYcwOBR77GiIcYr5bYd0UUcKF3CHXW1vsXmIuFbfqQ3SiQ9HqfGfsIlu7-LoShzCrTLexwDSJ8irpJ4OQkhKz59sjPJqaGsR2NgZGBEWw"/>
+</div>
+<div>
+<p class="font-bold text-body-md">M. Rossi</p>
+<p class="text-label-sm text-on-surface-variant">Lightning FC</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-headline-md font-extrabold text-primary">12</span>
+<p class="text-[10px] uppercase font-bold text-on-surface-variant">Goals</p>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 hover:bg-surface-container-low rounded-lg transition-colors border-b border-surface-variant">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-surface-variant bg-surface">
+<img alt="Athlete" class="w-full h-full object-cover" data-alt="A professional headshot of a smiling athletic person outdoors during a bright summer day. The individual is wearing a yellow team sports bib. The lighting is golden and warm, casting a beautiful glow. The overall aesthetic is professional, clean, and high-energy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClo6C-4p8NV49KH590ujSINYjxI0yW9MMek660CzVO_QlPivYmUrM5sWEP3gUKDpa4fabpad20BOhwEA8QuO7op2iEwtdPEySn06GjVccHfosvmTdRabhwdf9o7KyRq4qTySZR09P05vRbiUDwOeIoJtLrtKkQHc_BVsVzLy7ST2VNqlZOnzMH2PGXDoYkt-eSuILjo5a-g8a-zpqOvqfnM1Yluq0jkvVJZw8NCUqeuzdHBK7DngncOdCRgBqar_GAA9lVs-2ANw"/>
+</div>
+<div>
+<p class="font-bold text-body-md">A. Bianchi</p>
+<p class="text-label-sm text-on-surface-variant">Solar United</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-headline-md font-bold text-on-surface-variant">9</span>
+<p class="text-[10px] uppercase font-bold text-on-surface-variant">Goals</p>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 hover:bg-surface-container-low rounded-lg transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-surface-variant bg-surface">
+<img alt="Athlete" class="w-full h-full object-cover" data-alt="A close-up portrait of a female soccer player in her early 20s with her hair tied back, looking focused and confident. She is wearing a teal green athletic polo shirt. The lighting is direct and bright, capturing the intense atmosphere of a summer sports festival." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOl2pQwElkgtX1x2AASBmADKOge8AuhKDTzsnnUiWTUHzOf-7IFK_Xzhb-b0zff1eXz-Eeaz2U30NhgM3pVhMdHKgdArycfnHtawWQ8i1I1eELm-Acl3J43U-D3hBlSAw_0_iVPUYLhz6-wjqkYS1XNhJ4p7j1hj1YL6LysdaA-1BcF5Ve53aGzIorWKk4YSway3wlLXU5hdLbryRHKEIetOk0Y9Fh8ehWAKJOrZZOfzi5JmRUtco376tDdmqlXtn30cDk10PF9A"/>
+</div>
+<div>
+<p class="font-bold text-body-md">E. Verde</p>
+<p class="text-label-sm text-on-surface-variant">Beach Boys SC</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-headline-md font-bold text-on-surface-variant">7</span>
+<p class="text-[10px] uppercase font-bold text-on-surface-variant">Goals</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-3 border border-primary text-primary font-label-bold rounded-lg hover:bg-primary-fixed transition-colors active:scale-95 transition-transform">
+                        View Full Leaderboard
+                    </button>
+</section>
+<!-- Small Performance Chart Card -->
+<section class="bg-primary-container text-on-primary-container rounded-xl shadow-[0px_4px_20px_rgba(0,123,255,0.15)] p-6 relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="font-headline-md text-headline-md mb-2">Team Efficiency</h3>
+<p class="text-body-md opacity-90 mb-4">Shots to Goals conversion rate</p>
+<div class="flex items-end gap-2 h-32">
+<div class="flex-1 bg-on-primary-container opacity-40 rounded-t-sm" style="height: 60%"></div>
+<div class="flex-1 bg-on-primary-container opacity-70 rounded-t-sm" style="height: 85%"></div>
+<div class="flex-1 bg-secondary-container rounded-t-sm" style="height: 100%"></div>
+<div class="flex-1 bg-on-primary-container opacity-30 rounded-t-sm" style="height: 45%"></div>
+<div class="flex-1 bg-on-primary-container opacity-50 rounded-t-sm" style="height: 70%"></div>
+</div>
+<div class="flex justify-between mt-2 text-[10px] font-bold uppercase tracking-widest">
+<span>LFC</span>
+<span>SUN</span>
+<span>BBSC</span>
+<span>CWS</span>
+<span>DRA</span>
+</div>
+</div>
+<!-- Decorative Element -->
+<span class="material-symbols-outlined absolute -bottom-4 -right-4 text-8xl opacity-10 rotate-12" data-icon="trending_up">trending_up</span>
+</section>
+</aside>
+<!-- Bottom Performance Comparison Row -->
+<section class="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 gap-gutter lg:gap-md">
+<!-- Stat Comparison Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(0,123,255,0.08)] p-6">
+<h3 class="font-headline-md text-headline-md mb-6">Defense vs Offense</h3>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-label-bold font-label-bold">Goals Scored (Avg)</span>
+<span class="font-extrabold text-primary">2.8</span>
+</div>
+<div class="w-full bg-surface-container h-3 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 85%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-label-bold font-label-bold">Clean Sheets</span>
+<span class="font-extrabold text-secondary">5</span>
+</div>
+<div class="w-full bg-surface-container h-3 rounded-full overflow-hidden">
+<div class="bg-secondary-container h-full rounded-full" style="width: 60%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Stat Comparison Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(0,123,255,0.08)] p-6 flex flex-col justify-between">
+<div>
+<h3 class="font-headline-md text-headline-md mb-2">Tournament Pace</h3>
+<p class="text-on-surface-variant text-body-md mb-4">Aggregated matches intensity per week</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex-1 text-center border-r border-surface-variant">
+<span class="block text-display-lg font-display-lg text-primary">42</span>
+<span class="text-label-sm font-label-sm uppercase text-on-surface-variant">Matches Played</span>
+</div>
+<div class="flex-1 text-center">
+<span class="block text-display-lg font-display-lg text-secondary">156</span>
+<span class="text-label-sm font-label-sm uppercase text-on-surface-variant">Total Goals</span>
+</div>
+</div>
+<div class="mt-6 flex items-center gap-2 text-label-sm text-on-tertiary-fixed-variant bg-tertiary-fixed px-4 py-2 rounded-lg">
+<span class="material-symbols-outlined text-sm" data-icon="info">info</span>
+                        This tournament is averaging 3.7 goals per match, 15% higher than previous year.
+                    </div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-2 h-20 bg-surface-container-lowest dark:bg-on-background shadow-[0px_-4px_20px_rgba(0,123,255,0.08)] shadow-lg z-50 rounded-t-xl md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-2 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-bold text-label-bold">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-2 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-bold text-label-bold">Teams</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-2 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="scoreboard">scoreboard</span>
+<span class="font-label-bold text-label-bold">Results</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container dark:bg-secondary-fixed dark:text-on-secondary-fixed rounded-full px-4 py-1 mt-1 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard" style="font-variation-settings: 'FILL' 1;">leaderboard</span>
+<span class="font-label-bold text-label-bold">Stats</span>
+</a>
+</nav>
+<!-- Floating Action Button (Only on appropriate screens) -->
+<button class="fixed bottom-24 right-6 md:bottom-10 md:right-10 bg-primary text-on-primary w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-200 z-40">
+<span class="material-symbols-outlined" data-icon="share" style="font-variation-settings: 'FILL' 1;">share</span>
+</button>
+</body></html>

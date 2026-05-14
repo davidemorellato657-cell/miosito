@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Summer Sports Cup</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SummerCup">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#131313">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <script>
+    // Tailwind custom configuration for colors
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "surface": "#131313",
+            "primary": "#ffffff",
+            "primary-container": "#c5f400",
+            "acid-lime": "#c5f400",
+            "outline": "#8e9379",
+            "surface-container": "#1f1f1f",
+            "onyx": "#131313",
+          },
+          fontFamily: {
+            "montserrat": ["Montserrat", "sans-serif"],
+            "inter": ["Inter", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.5rem",
+          },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="bg-surface font-sans text-white min-h-screen relative overflow-x-hidden">
+  <!-- Background Images Container -->
+  <div class="fixed inset-0 z-0 flex flex-col md:flex-row pointer-events-none">
+    <div class="w-full md:w-1/2 h-1/2 md:h-full relative">
+        <img src="file:///C:/Users/utente/.gemini/antigravity/brain/7c6642b8-f2d6-49fc-9b6a-cb1930b41992/media__1778605914138.jpg" class="w-full h-full object-cover opacity-30 md:grayscale md:hover:grayscale-0 transition-all duration-700">
+        <div class="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-surface via-transparent to-transparent"></div>
+    </div>
+    <div class="w-full md:w-1/2 h-1/2 md:h-full relative">
+        <img src="file:///C:/Users/utente/.gemini/antigravity/brain/7c6642b8-f2d6-49fc-9b6a-cb1930b41992/media__1778605914117.jpg" class="w-full h-full object-cover opacity-30 md:grayscale md:hover:grayscale-0 transition-all duration-700">
+        <div class="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-l from-surface via-transparent to-transparent"></div>
+    </div>
+    <div class="absolute inset-0 bg-surface/40 backdrop-blur-[2px]"></div>
+  </div>
+
+  <nav class="relative z-10 bg-acid-lime/90 backdrop-blur-md p-4 shadow-2xl border-b border-acid-lime/20">
+    <div class="container mx-auto flex justify-between items-center px-4">
+      <h1 class="text-xl md:text-2xl font-montserrat font-extrabold italic text-onyx">Summer Sports Cup</h1>
+      <ul class="flex space-x-4">
+        <li><a href="login.html" class="text-onyx font-montserrat font-extrabold italic uppercase text-xs md:text-sm tracking-wider hover:underline">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="relative z-10 container mx-auto mt-10 md:mt-20 p-4 text-center">
+    <div class="max-w-3xl mx-auto py-12 md:py-20 px-6 md:px-8 rounded-[2rem] md:rounded-[3rem] bg-surface/60 backdrop-blur-xl border border-white/5 shadow-2xl">
+      <h2 class="text-4xl md:text-7xl font-montserrat font-extrabold uppercase italic tracking-tighter mb-4 md:mb-6 leading-[0.9]">
+        Il Tuo Torneo,<br><span class="text-acid-lime">Le Tue Regole.</span>
+      </h2>
+      <p class="text-gray-300 font-inter text-base md:text-xl mb-8 md:mb-12 max-w-xl mx-auto leading-relaxed">
+        Gestisci calcio, basket, volley e beach volley in un'unica piattaforma premium.
+        Statistiche in tempo reale.
+      </p>
+      <div class="flex justify-center gap-6">
+        <a href="login.html" class="group relative bg-acid-lime text-onyx w-full md:w-auto px-10 py-4 md:py-5 rounded-full font-montserrat font-extrabold uppercase italic tracking-wide transition-all shadow-[0_0_40px_rgba(197,244,0,0.3)] hover:shadow-[0_0_60px_rgba(197,244,0,0.5)] hover:scale-105 active:scale-95">
+          Inizia Ora
+        </a>
+      </div>
+    </div>
+  </main>
+  <script src="js/app.js"></script>
+</body>
+</html>
